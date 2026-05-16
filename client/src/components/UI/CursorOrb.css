@@ -29,9 +29,6 @@
   /* Smooth lag — the large orb trails behind cursor */
   transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.3, 1);
 
-  filter: blur(2px);
-  mix-blend-mode: multiply;
-
   will-change: transform;
 }
 
@@ -49,32 +46,39 @@
   background: var(--accent-primary, #FF5C5C);
   box-shadow: 0 0 0 2px rgba(255, 92, 92, 0.25);
 
+  /* GPU-accelerated positioning via translate */
   transform: translate(
     calc(var(--dot-x, -600px) - 5px),
     calc(var(--dot-y, -600px) - 5px)
   );
 
   /* Fast — almost 1:1 with cursor */
-  transition: transform 0.08s linear, opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
+  transition: transform 0.08s linear, opacity 0.3s ease;
 
   will-change: transform;
   mix-blend-mode: normal;
 }
 
-/* ─── DOT STATES ──────────────────────────────────────────────── */
+/* ─── DOT STATES (use transform: scale instead of width/height) ── */
 .cursor-dot.cursor-hovering {
-  width: 28px;
-  height: 28px;
+  /* Scale up from 10px to ~28px = scale(2.8) */
+  transform: translate(
+    calc(var(--dot-x, -600px) - 14px),
+    calc(var(--dot-y, -600px) - 14px)
+  ) scale(2.8);
   background: rgba(255, 92, 92, 0.18);
   box-shadow:
     0 0 0 1.5px rgba(255, 92, 92, 0.4),
     0 0 20px rgba(255, 92, 92, 0.15);
-  transition: transform 0.08s linear, width 0.25s ease, height 0.25s ease, background 0.25s ease;
+  transition: transform 0.2s ease, background 0.25s ease;
 }
 
 .cursor-dot.cursor-clicking {
-  width: 14px;
-  height: 14px;
+  /* Scale down from 10px to ~14px = scale(1.4) */
+  transform: translate(
+    calc(var(--dot-x, -600px) - 7px),
+    calc(var(--dot-y, -600px) - 7px)
+  ) scale(1.4);
   background: var(--accent-primary, #FF5C5C);
   opacity: 0.7;
 }

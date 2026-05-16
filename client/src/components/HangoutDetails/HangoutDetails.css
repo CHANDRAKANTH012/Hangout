@@ -5,7 +5,7 @@
   padding: 10rem 8rem;
 
   background:
-    url("../../assets/home/heroBg1.jpg")
+    url("../../assets/home/heroBg1.webp")
     no-repeat center center/cover;
 }
 
@@ -40,7 +40,10 @@
   flex-direction: column;
   gap: 2rem;
 
-  background: transparent;
+  /* Glassmorphism */
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
 
   border: 1px solid var(--glass-border);
 
@@ -175,7 +178,10 @@
   flex-direction: column;
   gap: 1.5rem;
 
-  background: transparent;
+  /* Glassmorphism */
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
 
   border: 1px solid var(--glass-border);
 
@@ -277,7 +283,10 @@
   flex-direction: column;
   gap: 1.5rem;
 
-  background: transparent;
+  /* Glassmorphism */
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
 
   border: 1px solid var(--glass-border);
 

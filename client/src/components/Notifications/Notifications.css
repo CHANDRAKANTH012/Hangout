@@ -4,7 +4,7 @@
   min-height: 100vh;
 
   background:
-    url("../../assets/home/heroBg1.jpg")
+    url("../../assets/home/heroBg1.webp")
     no-repeat center center/cover;
 }
 
@@ -37,9 +37,10 @@
   flex-direction: column;
   gap: 1rem;
 
-  background: transparent;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Glassmorphism: semi-transparent bg required for blur to show */
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
 
   border: 1px solid var(--glass-border);
 

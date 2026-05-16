@@ -1,5 +1,5 @@
 /* ─── GOOGLE FONTS ───────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap');
+/* Loaded via <link> in index.html to avoid render-blocking @import */
 
 /* ─── RESET ──────────────────────────────────────────────────── */
 *,
@@ -109,8 +109,8 @@ body {
 /* ─── GLASS COMPONENT ────────────────────────────────────────── */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
 }

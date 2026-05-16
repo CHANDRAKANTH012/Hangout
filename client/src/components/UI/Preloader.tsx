@@ -1,5 +1,5 @@
 import "./Preloader.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface PreloaderProps {
   onComplete?: () => void;
@@ -13,6 +13,8 @@ const LOGO_SRC = "/hangout-logo.png"; // Your Hangout logo image
 const Preloader = ({ onComplete, duration = 2800 }: PreloaderProps) => {
   const [exiting, setExiting] = useState(false);
   const [mounted, setMounted] = useState(true);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     // Clamp duration to max 3s
@@ -24,14 +26,14 @@ const Preloader = ({ onComplete, duration = 2800 }: PreloaderProps) => {
 
     const unmountTimer = setTimeout(() => {
       setMounted(false);
-      onComplete?.();
+      onCompleteRef.current?.();
     }, safeDuration + 650); // exit animation is 600ms
 
     return () => {
       clearTimeout(exitTimer);
       clearTimeout(unmountTimer);
     };
-  }, [duration, onComplete]);
+  }, [duration]);
 
   if (!mounted) return null;
 

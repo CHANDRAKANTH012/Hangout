@@ -1,9 +1,9 @@
 import "./Navbar.css";
 import { useEffect, useState, useCallback } from "react";
-import user from "../../assets/user.png";
+import user from "../../assets/user.webp";
 import { Link } from "react-router-dom";
 
-import logo from "../../assets/home/hangoutLogo.png";
+import logo from "../../assets/home/hangoutLogo.webp";
 
 
 type NavLinks = {

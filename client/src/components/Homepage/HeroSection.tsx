@@ -6,11 +6,11 @@ import gsap from "gsap";
 import { Link } from "react-router-dom";
 
 
-import hero1 from "../../assets/home/hero1.jfif";
-import hero2 from "../../assets/home/hero2.jfif";
-import hero3 from "../../assets/home/hero3.jfif";
-import hero4 from "../../assets/home/hero4.jfif";
-import hero5 from "../../assets/home/hero5.jfif";
+import hero1 from "../../assets/home/hero1.webp";
+import hero2 from "../../assets/home/hero2.webp";
+import hero3 from "../../assets/home/hero3.webp";
+import hero4 from "../../assets/home/hero4.webp";
+import hero5 from "../../assets/home/hero5.webp";
 import arrow from "../../assets/home/arrow.svg";
 
 /* ─── SLIDE DATA ────────────────────────────────────────────────
@@ -65,37 +65,44 @@ type SlideState = "entering" | "active" | "leaving" | "hidden";
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
 
- 
-
   const [currentIdx, setCurrentIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* ─── ADVANCE SLIDE ─────────────────────────────────────────── */
+  /* ─── Refs to avoid recreating advanceSlide on every render ── */
+  const currentIdxRef = useRef(currentIdx);
+  const isTransitioningRef = useRef(isTransitioning);
+  currentIdxRef.current = currentIdx;
+  isTransitioningRef.current = isTransitioning;
+
+  /* ─── ADVANCE SLIDE (stable — no deps that change) ─────────── */
   const advanceSlide = useCallback(() => {
-    if (isTransitioning) return;
+    if (isTransitioningRef.current) return;
 
     setIsTransitioning(true);
-    const nextIdx = (currentIdx + 1) % SLIDES.length;
+    isTransitioningRef.current = true;
+    const nextIdx = (currentIdxRef.current + 1) % SLIDES.length;
 
-    setPrevIdx(currentIdx);
+    setPrevIdx(currentIdxRef.current);
     setCurrentIdx(nextIdx);
+    currentIdxRef.current = nextIdx;
 
     // After transition finishes, clean up
     setTimeout(() => {
       setPrevIdx(null);
       setIsTransitioning(false);
+      isTransitioningRef.current = false;
     }, TRANSITION_DURATION + 50);
-  }, [currentIdx, isTransitioning]);
+  }, []);
 
-  /* ─── AUTO-CYCLE TIMER ──────────────────────────────────────── */
+  /* ─── AUTO-CYCLE TIMER (stable — advanceSlide never changes) ── */
   useEffect(() => {
     timerRef.current = setTimeout(advanceSlide, DISPLAY_DURATION);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [advanceSlide]);
+  }, [advanceSlide, currentIdx]);
 
   /* ─── RESOLVE SLIDE STATE ───────────────────────────────────── */
   const getSlideState = (idx: number): SlideState => {
@@ -181,16 +188,12 @@ const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="hero-buttons">
-            <button className="hero-btn-primary">
-              <Link to={"/map"}>
-                X-plore Nearby
-              </Link>
-            </button>
-            <button className="hero-btn-secondary">
-              <Link to={"/create"}>
-                <span>Create Hangouts</span> <img src={arrow} alt="" className="hero-btn-secondary-icon"/>
-              </Link>
-            </button>
+            <Link to="/map" className="hero-btn-primary">
+              X-plore Nearby
+            </Link>
+            <Link to="/create" className="hero-btn-secondary">
+              <span>Create Hangouts</span> <img src={arrow} alt="" className="hero-btn-secondary-icon"/>
+            </Link>
           </div>
 
           {/* Stats */}
@@ -266,6 +269,7 @@ const HeroSection = () => {
                       src={slide.image}
                       alt={`Hangout moment ${i + 1}`}
                       loading={i === 0 ? "eager" : "lazy"}
+                      decoding="async"
                     />
                   </div>
                 );
