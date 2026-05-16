@@ -5,7 +5,14 @@ import { Link } from "react-router-dom";
 
 import logo from "../../assets/home/hangoutLogo.png";
 
-const NAV_LINKS = [
+
+type NavLinks = {
+  label: string;
+  to: string;
+  badge?: string;
+}
+
+const NAV_LINKS: NavLinks[] = [
   { label: "Home", to: "/" },
   { label: "Map", to: "/map", badge: "New" },
   { label: "Hangouts", to: "/hangouts"},
@@ -62,7 +69,7 @@ const Navbar = () => {
                 <Link to={link.to} className="navbar-nav-link">
                   {link.label}
                   {link.badge && (
-                    <span className="nav-badge">{link.badge}</span>
+                    <span className="nav-badge" key={link.badge} >{link.badge}</span>
                   )}
                 </Link>
               </li>
@@ -103,6 +110,7 @@ const Navbar = () => {
             className="navbar-drawer-link"
             to={link.to}
             onClick={closeMenu}
+            key={link.label}
           >
             {link.label}
           </Link>

@@ -1,6 +1,13 @@
 import "./Footer.css";
 
-const FOOTER_LINKS = {
+type FooterLinks = {
+  label: string;
+  href: string;
+  badge?: string;
+}
+
+
+const FOOTER_LINKS: Record<string, FooterLinks[]> = {
   Product: [
     { label: "Features", href: "#" },
     { label: "How it works", href: "#" },

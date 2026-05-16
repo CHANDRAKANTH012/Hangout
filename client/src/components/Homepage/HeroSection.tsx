@@ -2,7 +2,7 @@ import "./HeroSection.css";
 import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 
-import { useNavigate } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 
 
@@ -59,19 +59,13 @@ const DISPLAY_DURATION = 3200; // ms visible
 const TRANSITION_DURATION = 750; // ms (must match CSS)
 
 type SlideState = "entering" | "active" | "leaving" | "hidden";
-
-interface SlideStatus {
-  state: SlideState;
-  index: number;
-}
-
 /* ═══════════════════════════════════════════════════════════════
    COMPONENT
    ═══════════════════════════════════════════════════════════════ */
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
 
-  const navigate = useNavigate();
+ 
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState<number | null>(null);

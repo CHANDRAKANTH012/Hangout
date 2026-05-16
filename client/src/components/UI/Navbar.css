@@ -37,10 +37,39 @@
 
 /* ─── SCROLLED STATE ─────────────────────────────────────────── */
 .navbar.scrolled .navbar-inner {
-  width: 80%;
+  width: 85%;
   height: 10dvh;
   transition: all 1s ease;
 }
+
+
+@media (951px <= width <= 1150px) {
+  .navbar.scrolled .navbar-inner {
+  width: 100%;
+  height: 10dvh;
+  transition: all 1s ease;
+}
+
+.navbar-nav{
+  gap: 2rem !important;
+}
+}
+
+@media (max-width: 951px) {
+  .navbar.scrolled .navbar-inner {
+    width: 90%;
+    height: 10dvh;
+    transition: all 1s ease;
+  }
+}
+@media (max-width: 480px) {
+  .navbar.scrolled .navbar-inner {
+    width: 95%;
+    height: 10dvh;
+    transition: all 1s ease;
+  }
+}
+
 
 /* ─── LOGO ────────────────────────────────────────────────────── */
 .navbar-logo {  
@@ -92,7 +121,7 @@
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 2.5rem;
   list-style: none;
   transition: gap 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -383,7 +412,7 @@
 }
 
 /* ─── RESPONSIVE ──────────────────────────────────────────────── */
-@media (max-width: 900px) {
+@media (max-width: 950px) {
   .navbar {
     padding: 0 32px;
   }
