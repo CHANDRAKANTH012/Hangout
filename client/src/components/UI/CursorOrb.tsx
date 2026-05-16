@@ -1,4 +1,4 @@
-import "./Cursororb.css";
+import "./CursorOrb.css";
 import { useEffect, useRef, useState } from "react";
 
 const CursorOrb = () => {
