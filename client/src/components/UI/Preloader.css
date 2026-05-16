@@ -1,0 +1,190 @@
+/* ═══════════════════════════════════════════════════════════════
+   PRELOADER  ·  max 3s duration
+   ═══════════════════════════════════════════════════════════════ */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(245, 247, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.8) inset,
+    0 4px 24px rgba(15, 15, 26, 0.07),
+    0 1px 3px rgba(15, 15, 26, 0.04);
+  border-bottom: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  overflow: hidden;
+}
+
+/* ─── EXIT ANIMATION ─────────────────────────────────────────── */
+.preloader.preloader-exit {
+  animation: preloaderExit 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes preloaderExit {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* ─── BACKGROUND PARTICLES ───────────────────────────────────── */
+.preloader-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleDrift linear infinite;
+}
+
+.preloader-particle-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 92, 92, 0.15), transparent 70%);
+  top: -100px;
+  right: -100px;
+  animation-duration: 8s;
+  filter: blur(40px);
+}
+
+.preloader-particle-2 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.12), transparent 70%);
+  bottom: -80px;
+  left: -80px;
+  animation-duration: 10s;
+  animation-direction: reverse;
+  filter: blur(40px);
+}
+
+@keyframes particleDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+/* ─── LOGO WRAP ───────────────────────────────────────────────── */
+.preloader-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: logoReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+@keyframes logoReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ─── LOGO IMAGE ─────────────────────────────────────────────── */
+.preloader-logo-img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  animation: logoPulse 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(255, 92, 92, 0.4));
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 24px rgba(255, 92, 92, 0.35)); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 40px rgba(255, 92, 92, 0.55)); }
+}
+
+/* ─── LOGO WORDMARK ──────────────────────────────────────────── */
+.preloader-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.preloader-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.preloader-name span {
+  background: linear-gradient(135deg, #FF5C5C, #FF9500, #FFD700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.preloader-tagline {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(9, 9, 9, 0.984);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ─── LOADING BAR ────────────────────────────────────────────── */
+.preloader-bar-wrap {
+  width: 180px;
+  height: 3px;
+  background: #111;
+  border-radius: 2px;
+  overflow: hidden;
+  animation: barFadeIn 0.4s 0.6s both;
+}
+
+@keyframes barFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.preloader-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #FF5C5C, #FF9500, #FFD700);
+  animation: barFill 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+  box-shadow: 0 0 10px rgba(255, 92, 92, 0.6);
+}
+
+@keyframes barFill {
+  0%   { width: 0%; }
+  30%  { width: 45%; }
+  70%  { width: 72%; }
+  90%  { width: 90%; }
+  100% { width: 100%; }
+}
+
+/* ─── LOADING TEXT ───────────────────────────────────────────── */
+.preloader-status {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  color: #111;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  animation: barFadeIn 0.4s 0.8s both, statusCycle 2.2s 0.6s steps(1) forwards;
+}
+
+@keyframes statusCycle {
+  0%   { content: "Loading..."; }
+  40%  { opacity: 0.5; }  
+  100% { opacity: 0; }
+}

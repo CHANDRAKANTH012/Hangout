@@ -1,0 +1,88 @@
+/* ═══════════════════════════════════════════════════════════════
+   CURSOR ORB  ·  Mouse-following ambient sphere
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── OUTER ORB (large, slow) ────────────────────────────────── */
+.cursor-orb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 92, 92, 0.10) 0%,
+    rgba(255, 149, 0, 0.06) 35%,
+    transparent 70%
+  );
+
+  /* Translate to cursor position via CSS custom props */
+  transform: translate(
+    calc(var(--orb-x, -600px) - 260px),
+    calc(var(--orb-y, -600px) - 260px)
+  );
+
+  /* Smooth lag — the large orb trails behind cursor */
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.3, 1);
+
+  filter: blur(2px);
+  mix-blend-mode: multiply;
+
+  will-change: transform;
+}
+
+/* ─── INNER DOT (tight, fast) ────────────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+
+  background: var(--accent-primary, #FF5C5C);
+  box-shadow: 0 0 0 2px rgba(255, 92, 92, 0.25);
+
+  transform: translate(
+    calc(var(--dot-x, -600px) - 5px),
+    calc(var(--dot-y, -600px) - 5px)
+  );
+
+  /* Fast — almost 1:1 with cursor */
+  transition: transform 0.08s linear, opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
+
+  will-change: transform;
+  mix-blend-mode: normal;
+}
+
+/* ─── DOT STATES ──────────────────────────────────────────────── */
+.cursor-dot.cursor-hovering {
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 92, 92, 0.18);
+  box-shadow:
+    0 0 0 1.5px rgba(255, 92, 92, 0.4),
+    0 0 20px rgba(255, 92, 92, 0.15);
+  transition: transform 0.08s linear, width 0.25s ease, height 0.25s ease, background 0.25s ease;
+}
+
+.cursor-dot.cursor-clicking {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-primary, #FF5C5C);
+  opacity: 0.7;
+}
+
+/* ─── HIDE ON MOBILE (touch devices) ────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-orb,
+  .cursor-dot {
+    display: none;
+  }
+}

@@ -1,0 +1,238 @@
+/* PAGE */
+.notifications-page {
+  padding: 10rem 8rem;
+  min-height: 100vh;
+
+  background:
+    url("../../assets/home/heroBg1.jpg")
+    no-repeat center center/cover;
+}
+
+/* HEADER */
+.notifications-header {
+  margin-bottom: 3rem;
+}
+
+.notifications-header h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.notifications-header p {
+  margin-top: 0.5rem;
+  color: var(--text-secondary);
+}
+
+/* LIST */
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* CARD */
+.notification-card {
+  padding: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  background: transparent;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid var(--glass-border);
+
+  transition: var(--transition-base);
+
+  box-shadow: var(--shadow-md);
+}
+
+.notification-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* TOP */
+.notification-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.notification-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification-user img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+.notification-user h3 {
+  font-size: 1rem;
+}
+
+.notification-user p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.notification-user p span {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* STATUS */
+.notification-status {
+  height: fit-content;
+
+  padding: 0.35rem 0.8rem;
+
+  border-radius: 999px;
+
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  text-transform: capitalize;
+}
+
+.notification-status.pending {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+}
+
+.notification-status.accepted {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--accent-green);
+}
+
+.notification-status.rejected {
+  background: rgba(255, 92, 92, 0.12);
+  color: var(--accent-primary);
+}
+
+/* MESSAGE */
+.notification-message {
+  padding: 1rem;
+
+  border-radius: var(--radius-md);
+
+  background: rgba(255,255,255,0.3);
+
+  color: var(--text-secondary);
+
+  line-height: 1.6;
+}
+
+/* META */
+.notification-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  font-size: 0.85rem;
+
+  color: var(--text-muted);
+}
+
+/* ACTIONS */
+.notification-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* BUTTONS */
+.btn-accept,
+.btn-reject,
+.btn-joined {
+  border: none;
+
+  border-radius: var(--radius-full);
+
+  padding: 0.8rem 1.4rem;
+
+  font-family: 'Poppins', sans-serif;
+
+  cursor: pointer;
+
+  transition: var(--transition-fast);
+}
+
+.btn-accept {
+  background: var(--accent-green);
+  color: white;
+}
+
+.btn-reject {
+  background: rgba(243, 49, 49, 0.8);
+  color: white;
+}
+
+.btn-joined {
+  background: var(--accent-blue);
+  color: white;
+}
+
+/* HOVER */
+.btn-accept:hover,
+.btn-reject:hover,
+.btn-joined:hover {
+  transform: translateY(-2px);
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+
+  .notifications-page {
+    padding: 8rem 1.5rem;
+  }
+
+  .notification-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .notification-meta {
+    flex-direction: column;
+  }
+
+  .notification-actions {
+    width: 100%;
+  }
+
+  .notification-actions button {
+    flex: 1;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+
+  .notification-card {
+    padding: 1.2rem;
+  }
+
+  .notification-user {
+    align-items: flex-start;
+  }
+
+  .notification-user img {
+    width: 46px;
+    height: 46px;
+  }
+
+  .notification-actions {
+    flex-direction: column;
+  }
+
+  .notification-actions button {
+    width: 100%;
+  }
+}
