@@ -93,6 +93,7 @@ export const hangouts: Hangout[] = [
       name: "Rahul",
       avatar: avatar1,
       id: "u1",
+      joinedUsers: ["u2", "u3"],
     },
 
     participants: 3,

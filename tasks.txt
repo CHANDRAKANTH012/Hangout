@@ -1,0 +1,7 @@
+Database: 
+
+1. Authentication & Authorization:
+2. User Details
+3. Hangouts - Public table
+4. Map - Co-ordinates
+

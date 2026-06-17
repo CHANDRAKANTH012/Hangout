@@ -1,0 +1,381 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Hangout - Join the Connection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .shimmer-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: translateX(-100%);
+        }
+        .shimmer-btn:hover::after {
+            animation: shimmer 1s infinite;
+        }
+        .sunrise-gradient {
+            background: linear-gradient(135deg, #b4252d 0%, #ff5c5c 50%, #8c5000 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
+        }
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            border-radius: 50%;
+        }
+        .view-transition {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hidden-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .visible-view {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#b4252d",
+                        "tertiary-fixed": "#ffdcbf",
+                        "on-secondary-fixed": "#001a42",
+                        "inverse-surface": "#302f3b",
+                        "on-surface-variant": "#5a403f",
+                        "on-background": "#1b1a26",
+                        "on-primary-fixed": "#410005",
+                        "tertiary-container": "#d97e00",
+                        "on-primary-fixed-variant": "#920418",
+                        "surface-container": "#efecfc",
+                        "surface-container-highest": "#e3e0f1",
+                        "surface-bright": "#fcf8ff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#0058be",
+                        "outline": "#8e706e",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e9e6f7",
+                        "on-primary-container": "#62000c",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-error-container": "#93000a",
+                        "primary": "#b4252d",
+                        "on-surface": "#1b1a26",
+                        "surface": "#fcf8ff",
+                        "secondary-container": "#2170e4",
+                        "primary-container": "#ff5c5c",
+                        "on-tertiary-container": "#462500",
+                        "tertiary": "#8c5000",
+                        "tertiary-fixed-dim": "#ffb874",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e3e0f1",
+                        "primary-fixed": "#ffdad7",
+                        "surface-container-low": "#f5f2ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "background": "#fcf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#e2bebc",
+                        "inverse-on-surface": "#f2efff",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-secondary-container": "#fefcff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#6a3b00",
+                        "on-tertiary-fixed": "#2d1600",
+                        "inverse-primary": "#ffb3af",
+                        "surface-dim": "#dbd8e8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "40px",
+                        "gutter": "24px",
+                        "card-gap": "24px",
+                        "container-padding-mobile": "20px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Be Vietnam Pro"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-xl-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "label-md": ["Be Vietnam Pro"],
+                        "body-lg": ["Be Vietnam Pro"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                        "headline-xl-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-background overflow-x-hidden min-h-screen flex flex-col">
+<!-- Decorative Blobs -->
+<div class="blob w-96 h-96 bg-primary/20 top-[-10%] left-[-10%]"></div>
+<div class="blob w-[500px] h-[500px] bg-tertiary/20 bottom-[-20%] right-[-10%]"></div>
+<div class="blob w-64 h-64 bg-secondary/15 top-[40%] right-[15%]"></div>
+<!-- TopNavBar -->
+<header class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-white/40 bg-white/15 backdrop-blur-lg shadow-2xl flex justify-between items-center px-8 py-3 z-50">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-black text-primary bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">Hangout</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Discover</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Map</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Create</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Notifications</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-medium hover:scale-105 transition-all font-label-md text-label-md" onclick="toggleView('login')">Login</button>
+<button class="sunrise-gradient text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md shadow-lg hover:scale-105 transition-all active:scale-95 shimmer-btn" onclick="toggleView('signup')">Join Now</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center px-container-padding-mobile md:px-container-padding-desktop py-32">
+<div class="w-full max-w-[440px] glass-card rounded-lg p-10 relative overflow-hidden">
+<!-- Login View -->
+<div class="view-transition visible-view" id="login-view">
+<div class="text-center mb-10">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/30 backdrop-blur-md border border-white/50 mb-4">
+<span class="material-symbols-outlined text-primary text-4xl" data-weight="fill">diversity_3</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Welcome back</h1>
+<p class="text-on-surface-variant mt-2 font-body-md text-body-md">Spontaneous moments are waiting.</p>
+</div>
+<form class="space-y-6" onsubmit="event.preventDefault();">
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant ml-2">Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">mail</span>
+<input class="w-full bg-white/50 border-none rounded-full py-3.5 pl-12 pr-4 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="you@example.com" type="email">
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant ml-2">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">lock</span>
+<input class="w-full bg-white/50 border-none rounded-full py-3.5 pl-12 pr-12 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none" id="login-pass" placeholder="••••••••" type="password">
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary" onclick="togglePassword('login-pass')" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between px-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox">
+<span class="text-label-md font-label-md text-on-surface-variant group-hover:text-primary transition-colors">Remember me</span>
+</label>
+<a class="text-label-md font-label-md text-primary hover:underline" href="#">Forgot Password?</a>
+</div>
+<button class="w-full sunrise-gradient text-on-primary py-4 rounded-full font-label-md text-label-md shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all shimmer-btn">Log in</button>
+</form>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/30"></div></div>
+<div class="relative flex justify-center text-label-md"><span class="bg-transparent px-4 text-on-surface-variant backdrop-blur-sm">Or continue with</span></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 bg-white/30 border border-white/50 py-3 rounded-full hover:bg-white/50 transition-all">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWmQ74N62smLLPp26nCy-Y-dy_DVAtL1hkI6dYPSZED5j_dtcbBvoWLnsdhBEKXJEH3zXfiG9rlEikgR4Qt-ro7VCiaHMOsj-7HoOHYqIFK_QkUuM5P2LzZn0wKekWwR25k2Rt1MRJKDI1869QPYX2ZHnce-FHZwRl-u6B74SN2_QH081qcHFaT4PHaUwp11BJfmGCZNqjYP9lgcgZl2Oa-ukHhUxx4q19bXCPujv8AwrYv4rY602-oLkkY_BDjMYOe8l-9AVrJUgt">
+<span class="text-label-md font-label-md">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 bg-white/30 border border-white/50 py-3 rounded-full hover:bg-white/50 transition-all">
+<span class="material-symbols-outlined text-xl">terminal</span>
+<span class="text-label-md font-label-md">GitHub</span>
+</button>
+</div>
+<p class="text-center mt-8 text-on-surface-variant font-body-md">
+                    Don't have an account? 
+                    <button class="text-primary font-bold hover:underline" onclick="toggleView('signup')">Sign up</button>
+</p>
+</div>
+<!-- Signup View -->
+<div class="view-transition hidden-view" id="signup-view">
+<div class="text-center mb-8">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Join Hangout</h1>
+<p class="text-on-surface-variant mt-2 font-body-md text-body-md">Start your next urban adventure.</p>
+</div>
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant ml-2">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">person</span>
+<input class="w-full bg-white/50 border-none rounded-full py-3 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="Alex Rivera" type="text">
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant ml-2">Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">mail</span>
+<input class="w-full bg-white/50 border-none rounded-full py-3 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="alex@example.com" type="email">
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant ml-2">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">lock</span>
+<input class="w-full bg-white/50 border-none rounded-full py-3 pl-11 pr-11 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none" id="signup-pass" oninput="updateStrength(this.value)" placeholder="Create password" type="password">
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary" onclick="togglePassword('signup-pass')" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+<div class="px-4 mt-2">
+<div class="h-1 w-full bg-white/30 rounded-full overflow-hidden">
+<div class="h-full w-0 transition-all duration-500 bg-error" id="strength-bar"></div>
+</div>
+<p class="text-[10px] uppercase tracking-wider font-bold mt-1 text-on-surface-variant" id="strength-text">Too Weak</p>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant ml-2">Confirm Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">verified_user</span>
+<input class="w-full bg-white/50 border-none rounded-full py-3 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="Repeat password" type="password">
+</div>
+</div>
+<button class="w-full sunrise-gradient text-on-primary py-4 rounded-full font-label-md text-label-md shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all shimmer-btn mt-4">Create Account</button>
+</form>
+<p class="text-center mt-6 text-on-surface-variant font-body-md">
+                    Already a member? 
+                    <button class="text-primary font-bold hover:underline" onclick="toggleView('login')">Log in</button>
+</p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 bg-[#0F0F1A] relative overflow-hidden before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] before:from-primary/10 before:to-transparent">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto relative z-10">
+<div class="space-y-6">
+<span class="font-headline-md text-headline-md font-extrabold text-white">Hangout</span>
+<p class="text-surface-variant/70 font-body-md text-body-md leading-relaxed">
+                    © 2024 Hangout. Spontaneous connections for the urban soul.
+                </p>
+</div>
+<div class="space-y-6">
+<h4 class="text-white font-bold font-label-md text-label-md uppercase tracking-wider">Company</h4>
+<div class="flex flex-col gap-3">
+<a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Privacy Policy</a>
+<a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Terms of Service</a>
+</div>
+</div>
+<div class="space-y-6">
+<h4 class="text-white font-bold font-label-md text-label-md uppercase tracking-wider">Community</h4>
+<div class="flex flex-col gap-3">
+<a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Community Guidelines</a>
+<a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Safety Center</a>
+</div>
+</div>
+<div class="space-y-6">
+<h4 class="text-white font-bold font-label-md text-label-md uppercase tracking-wider">Support</h4>
+<div class="flex flex-col gap-3">
+<a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Contact Us</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        function toggleView(view) {
+            const login = document.getElementById('login-view');
+            const signup = document.getElementById('signup-view');
+            
+            if (view === 'signup') {
+                login.classList.add('hidden-view');
+                login.classList.remove('visible-view');
+                setTimeout(() => {
+                    login.style.display = 'none';
+                    signup.style.display = 'block';
+                    setTimeout(() => {
+                        signup.classList.add('visible-view');
+                        signup.classList.remove('hidden-view');
+                    }, 50);
+                }, 300);
+            } else {
+                signup.classList.add('hidden-view');
+                signup.classList.remove('visible-view');
+                setTimeout(() => {
+                    signup.style.display = 'none';
+                    login.style.display = 'block';
+                    setTimeout(() => {
+                        login.classList.add('visible-view');
+                        login.classList.remove('hidden-view');
+                    }, 50);
+                }, 300);
+            }
+        }
+
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const btn = input.nextElementSibling.querySelector('span');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerText = 'visibility_off';
+            } else {
+                input.type = 'password';
+                btn.innerText = 'visibility';
+            }
+        }
+
+        function updateStrength(val) {
+            const bar = document.getElementById('strength-bar');
+            const text = document.getElementById('strength-text');
+            
+            if (val.length === 0) {
+                bar.style.width = '0%';
+                text.innerText = 'Too Weak';
+                bar.className = 'h-full w-0 transition-all duration-500 bg-error';
+            } else if (val.length < 6) {
+                bar.style.width = '33%';
+                text.innerText = 'Weak';
+                text.className = 'text-[10px] uppercase tracking-wider font-bold mt-1 text-error';
+                bar.className = 'h-full transition-all duration-500 bg-error';
+            } else if (val.length < 10) {
+                bar.style.width = '66%';
+                text.innerText = 'Fair';
+                text.className = 'text-[10px] uppercase tracking-wider font-bold mt-1 text-tertiary';
+                bar.className = 'h-full transition-all duration-500 bg-tertiary';
+            } else {
+                bar.style.width = '100%';
+                text.innerText = 'Strong';
+                text.className = 'text-[10px] uppercase tracking-wider font-bold mt-1 text-secondary';
+                bar.className = 'h-full transition-all duration-500 bg-secondary';
+            }
+        }
+    </script>
+</body></html>

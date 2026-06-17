@@ -1,0 +1,380 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Hangout - Create Your Moment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) skewX(-15deg); }
+            100% { transform: translateX(200%) skewX(-15deg); }
+        }
+        .shimmer-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-15deg);
+            animation: shimmer 2s infinite;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
+        }
+        .sunrise-gradient {
+            background: linear-gradient(135deg, #ff5c5c 0%, #b4252d 50%, #8c5000 100%);
+        }
+        .gradient-border-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 2rem;
+            z-index: 1;
+        }
+        .gradient-border-card::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(270deg, #ff5c5c, #8c5000, #ff5c5c);
+            background-size: 200% 200%;
+            z-index: -1;
+            border-radius: 2.1rem;
+            animation: moveGradient 4s ease infinite;
+        }
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #b4252d; border-radius: 10px; }
+        
+        .chip-active {
+            background: rgba(180, 37, 45, 0.1);
+            color: #b4252d;
+            border-color: #b4252d;
+        }
+
+        .map-placeholder {
+            background: #f0f0f0;
+            background-image: radial-gradient(#ccc 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#b4252d",
+                    "tertiary-fixed": "#ffdcbf",
+                    "on-secondary-fixed": "#001a42",
+                    "inverse-surface": "#302f3b",
+                    "on-surface-variant": "#5a403f",
+                    "on-background": "#1b1a26",
+                    "on-primary-fixed": "#410005",
+                    "tertiary-container": "#d97e00",
+                    "on-primary-fixed-variant": "#920418",
+                    "surface-container": "#efecfc",
+                    "surface-container-highest": "#e3e0f1",
+                    "surface-bright": "#fcf8ff",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#0058be",
+                    "outline": "#8e706e",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-high": "#e9e6f7",
+                    "on-primary-container": "#62000c",
+                    "on-secondary-fixed-variant": "#004395",
+                    "on-error-container": "#93000a",
+                    "primary": "#b4252d",
+                    "on-surface": "#1b1a26",
+                    "surface": "#fcf8ff",
+                    "secondary-container": "#2170e4",
+                    "primary-container": "#ff5c5c",
+                    "on-tertiary-container": "#462500",
+                    "tertiary": "#8c5000",
+                    "tertiary-fixed-dim": "#ffb874",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e3e0f1",
+                    "primary-fixed": "#ffdad7",
+                    "surface-container-low": "#f5f2ff",
+                    "secondary-fixed": "#d8e2ff",
+                    "background": "#fcf8ff",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#e2bebc",
+                    "inverse-on-surface": "#f2efff",
+                    "primary-fixed-dim": "#ffb3af",
+                    "on-secondary-container": "#fefcff",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#6a3b00",
+                    "on-tertiary-fixed": "#2d1600",
+                    "inverse-primary": "#ffb3af",
+                    "surface-dim": "#dbd8e8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "40px",
+                    "gutter": "24px",
+                    "card-gap": "24px",
+                    "container-padding-mobile": "20px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "body-lg": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-white/40 bg-white/15 backdrop-blur-lg shadow-2xl flex justify-between items-center px-8 py-3 z-50">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-black text-primary bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">Hangout</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors hover:scale-105" href="#">Discover</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors hover:scale-105" href="#">Map</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 transition-all" href="#">Create</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors hover:scale-105" href="#">Notifications</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors px-4 py-2">Login</button>
+<button class="bg-gradient-to-r from-primary to-tertiary text-white font-label-md text-label-md px-6 py-2.5 rounded-full hover:scale-105 hover:bg-white/20 transition-all duration-300 shadow-lg active:scale-95">Join Now</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="min-h-screen pt-32 pb-20 px-container-padding-mobile md:px-container-padding-desktop">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12 text-center">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-2">Create a Hangout</h1>
+<p class="text-on-surface-variant font-body-lg text-body-lg max-w-2xl mx-auto">Turn a random thought into a real connection. Set the vibe, pick a place, and let the city join in.</p>
+</div>
+<!-- Main Creation Card -->
+<div class="gradient-border-card p-[2px]">
+<div class="bg-white rounded-[2rem] p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-12 overflow-hidden">
+<!-- Left Panel -->
+<div class="space-y-8">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-3">HANGOUT TITLE</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-body-lg font-body-lg focus:ring-2 focus:ring-primary placeholder:text-on-surface-variant/40 transition-all" placeholder="Coffee &amp; Concept Art?" type="text">
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-3">CATEGORY</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-none rounded-lg p-4 appearance-none text-body-md font-body-md focus:ring-2 focus:ring-primary cursor-pointer">
+<option>Art &amp; Culture</option>
+<option>Food &amp; Drinks</option>
+<option>Outdoors &amp; Sports</option>
+<option>Tech &amp; Gaming</option>
+<option>Music &amp; Nightlife</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary">expand_more</span>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-3">
+<label class="text-label-md font-label-md text-on-surface-variant">DESCRIPTION</label>
+<button class="flex items-center gap-1 text-primary hover:text-tertiary transition-colors shimmer-effect px-3 py-1 bg-primary/5 rounded-full border border-primary/10">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-label-md font-label-md">AI ENHANCE</span>
+</button>
+</div>
+<textarea class="w-full bg-surface-container-low border-none rounded-lg p-4 text-body-md font-body-md focus:ring-2 focus:ring-primary placeholder:text-on-surface-variant/40 transition-all resize-none" placeholder="Tell us what's happening..." rows="4"></textarea>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-3">HOW MANY PEOPLE?</label>
+<div class="flex items-center gap-6 bg-surface-container-low w-fit p-2 rounded-full border border-outline-variant/30">
+<button class="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm group">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<span class="text-headline-md font-headline-md text-on-surface min-w-[100px] text-center">6 people</span>
+<button class="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-3">VIBE CHECK</label>
+<div class="flex flex-wrap gap-2 mb-4">
+<button class="px-4 py-2 rounded-full border border-outline-variant text-label-md font-label-md hover:border-primary hover:text-primary transition-all chip-active">Chill</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant text-label-md font-label-md hover:border-primary hover:text-primary transition-all">Hype</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant text-label-md font-label-md hover:border-primary hover:text-primary transition-all">Productive</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant text-label-md font-label-md hover:border-primary hover:text-primary transition-all">Mysterious</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant text-label-md font-label-md hover:border-primary hover:text-primary transition-all">Urban</button>
+</div>
+<input class="w-full bg-transparent border-b-2 border-outline-variant p-2 text-body-md font-body-md focus:border-primary focus:outline-none placeholder:text-on-surface-variant/40 transition-all" placeholder="Or type your own vibe..." type="text">
+</div>
+<div class="flex items-center justify-between pt-4">
+<div class="flex flex-col">
+<span class="text-body-md font-bold text-on-surface">Private / Approval Required</span>
+<span class="text-label-md text-on-surface-variant">You'll need to manually approve participants</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox">
+<div class="w-14 h-7 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Right Panel -->
+<div class="space-y-8 bg-surface-container-low/30 p-6 md:p-8 rounded-3xl border border-white/60">
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-outline-variant/20 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined text-[32px]">calendar_month</span>
+</div>
+<span class="block text-label-md text-on-surface-variant mb-1">DATE</span>
+<span class="block font-headline-md text-on-surface">Oct 24</span>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-outline-variant/20 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary mb-4 group-hover:bg-tertiary group-hover:text-white transition-all">
+<span class="material-symbols-outlined text-[32px]">schedule</span>
+</div>
+<span class="block text-label-md text-on-surface-variant mb-1">TIME</span>
+<span class="block font-headline-md text-on-surface">18:30</span>
+</div>
+</div>
+<div class="space-y-4">
+<label class="block text-label-md font-label-md text-on-surface-variant">LOCATION</label>
+<div class="relative">
+<input class="w-full bg-white border border-outline-variant/40 rounded-full py-4 px-12 text-body-md focus:ring-2 focus:ring-primary shadow-sm" placeholder="Search for a place or address..." type="text">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary cursor-pointer">my_location</span>
+</div>
+<!-- Map UI Mockup -->
+<div class="relative w-full h-[280px] rounded-2xl overflow-hidden border border-outline-variant/30 map-placeholder">
+<img alt="Map background" class="w-full h-full object-cover grayscale-[20%] opacity-80" data-alt="A stylized overhead map of a modern urban city district featuring clean white streets and vibrant coral red landmarks. The lighting is soft and even, highlighting a high-tech minimalist interface. The overall aesthetic is professional and modern, using a light-mode color palette with subtle shadows for depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRQruq3QYtaPoVoR0a2u9k2hvPiKWdYLp3dGklhWqeCabsBzTW1e29p0CC0co80k6fLa9Y8VTRyAWqPTYVpdiaVFdEqhLBUJtzuYrULj7mYyuwO_oSw5NI3wE7JJAk0H7DmUaHqphuvu2rjDPXE-rvbi5bNU0d3hOSUy8w5aQvzKZhChofMDMXts_B6QU73_bmBFhzV5V_zgEN3AhsINPZDK_5KerxwEXLqZqo96is8vgGrjNDPw2Evx2vUB9AxGVFGINPO1RcHj6P">
+<div class="absolute inset-0 bg-gradient-to-b from-white/10 to-black/20"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<span class="material-symbols-outlined text-[48px] text-primary drop-shadow-lg" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div class="mt-2 bg-white px-3 py-1.5 rounded-lg shadow-xl border border-primary/20 animate-bounce">
+<span class="text-label-md font-bold text-primary">Pin Location</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm p-2 rounded-lg border border-outline-variant/20 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">
+                                    Nominatim OpenSource Data
+                                </div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">MIN AGE</label>
+<input class="w-full bg-white border border-outline-variant/40 rounded-lg p-4 text-body-md focus:ring-2 focus:ring-primary" placeholder="18+" type="number">
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">RESTRICTIONS?</label>
+<input class="w-full bg-white border border-outline-variant/40 rounded-lg p-4 text-body-md focus:ring-2 focus:ring-primary" placeholder="e.g. Bring a sketchbook" type="text">
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Action Area -->
+<div class="bg-surface-container-low rounded-b-[2rem] px-6 py-8 md:px-10 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-outline-variant/20">
+<button class="text-on-surface-variant hover:text-error font-label-md uppercase tracking-wider transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">delete_sweep</span>
+                        Clear All Drafts
+                    </button>
+<div class="flex flex-col md:flex-row items-center gap-6">
+<span class="text-label-md text-on-surface-variant italic">Spontaneous connections happen in real-time.</span>
+<button class="px-12 py-4 bg-gradient-to-r from-primary to-tertiary text-white font-headline-md text-headline-md rounded-full shadow-2xl hover:scale-105 transition-all active:scale-95 shimmer-effect">
+                            Create Hangout
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0F0F1A] w-full py-16 relative overflow-hidden before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] before:from-primary/10 before:to-transparent">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto relative z-10">
+<div class="space-y-4">
+<span class="font-headline-md text-headline-md font-extrabold text-white">Hangout</span>
+<p class="text-surface-variant/70 font-body-md text-body-md">© 2024 Hangout. Spontaneous connections for the urban soul.</p>
+</div>
+<div class="space-y-4">
+<h4 class="text-white font-bold">Explore</h4>
+<ul class="space-y-2">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Nearby Events</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Trending Circles</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Host a Moment</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="text-white font-bold">Community</h4>
+<ul class="space-y-2">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Community Guidelines</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Safety Center</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="text-white font-bold">Connect</h4>
+<ul class="space-y-2">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Privacy Policy</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Contact Us</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Support</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Interaction logic
+        document.querySelectorAll('.gradient-border-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentX = (x / rect.width) * 100;
+                
+                if (percentX < 50) {
+                    card.style.setProperty('--gradient-focus', 'left');
+                } else {
+                    card.style.setProperty('--gradient-focus', 'right');
+                }
+            });
+        });
+
+        // Chip selection simulation
+        const chips = document.querySelectorAll('.flex.flex-wrap.gap-2 button');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chip.classList.toggle('chip-active');
+            });
+        });
+    </script>
+</body></html>

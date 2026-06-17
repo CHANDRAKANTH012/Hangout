@@ -1,0 +1,153 @@
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL TEXT SECTION  ·  Hangout
+   ═══════════════════════════════════════════════════════════════ */
+
+.scroll-text-section {
+  padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 80px);
+  background: #F5F2FF;
+  position: relative;
+  overflow: hidden;
+  
+}
+
+/* ─── BLOBS ───────────────────────────────────────────────────── */
+.st-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  z-index: 0;
+}
+.st-blob-1 {
+  width: clamp(300px, 40vw, 600px);
+  height: clamp(300px, 40vw, 600px);
+  background: rgba(180, 37, 45, 0.06);
+  top: 5%; left: -10%;
+}
+.st-blob-2 {
+  width: clamp(250px, 35vw, 500px);
+  height: clamp(250px, 35vw, 500px);
+  background: rgba(33, 112, 228, 0.05);
+  bottom: 5%; right: -8%;
+}
+
+/* ─── INNER ───────────────────────────────────────────────────── */
+.st-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ─── HEADLINE ────────────────────────────────────────────────── */
+/*
+  Words wrap naturally just like the screenshot.
+  display:flex + flex-wrap lets words sit inline and wrap at
+  container edges — exactly matching the reference image.
+*/
+.st-headline {
+  font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(40px, 5.5vw, 72px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  /* inline-flex wrapping so words sit side by side and wrap naturally */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.22em;           /* space between words */
+  user-select: none;
+}
+
+/* ─── WORD WRAPPER ───────────────────────────────────────────── */
+.st-word {
+  position: relative;
+  display: inline-block;
+  line-height: inherit;
+}
+
+/* Ghost — outline text, always faintly visible */
+.st-word-ghost {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(27, 26, 38, 0.12);
+  white-space: nowrap;
+}
+
+/* Fill — solid text, clipped left→right via --fill-pct */
+.st-word-fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: #1B1A26;
+  -webkit-text-stroke: 0;
+  white-space: nowrap;
+  /* start fully clipped */
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.06s linear;
+  pointer-events: none;
+}
+
+/* Partial */
+.st-word.word-partial .st-word-fill {
+  clip-path: inset(0 calc(100% - var(--fill-pct, 0%)) 0 0);
+}
+
+/* Fully revealed */
+.st-word.word-revealed .st-word-fill {
+  clip-path: inset(0 0% 0 0);
+  transition: none;
+}
+
+/* Dim ghost once word starts revealing */
+.st-word.word-partial .st-word-ghost,
+.st-word.word-revealed .st-word-ghost {
+  -webkit-text-stroke-color: rgba(27, 26, 38, 0.06);
+}
+
+/* ─── GRADIENT WORD ("SHOW UP.") ─────────────────────────────── */
+.st-word--gradient .st-word-fill {
+  background: linear-gradient(to right, #b4252d, #8c5000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .st-headline {
+    font-size: clamp(36px, 7vw, 52px);
+    gap: 0.18em;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-text-section { padding: clamp(60px, 10vh, 100px) 20px; }
+  .st-headline {
+    /* font-size: clamp(28px, 9vw, 42px); */
+    letter-spacing: -0.025em;
+    gap: 0.15em;
+  }
+  .st-word-ghost { -webkit-text-stroke-width: 1px; }
+}
+
+@media (min-width: 1440px) {
+  .st-headline { font-size: clamp(64px, 5.5vw, 84px); }
+}
+
+
+@media (max-width: 391px) {
+  .st-headline {
+    font-size: clamp(32px, 7vw, 52px);
+    gap: 0.18em;
+  }
+}
+
+/* ─── REDUCED MOTION ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .st-word-fill {
+    transition: none;
+    clip-path: inset(0 0% 0 0) !important;
+  }
+}

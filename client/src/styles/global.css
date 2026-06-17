@@ -1,5 +1,16 @@
 /* ─── GOOGLE FONTS ───────────────────────────────────────────── */
-/* Loaded via <link> in index.html to avoid render-blocking @import */
+/* Load in index.html <head> — never @import here                 */
+/*
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?
+    family=Plus+Jakarta+Sans:wght@700;800;900&
+    family=Be+Vietnam+Pro:wght@400;500;600&
+    family=Bricolage+Grotesque:wght@400;600;700;800;900&
+    family=Material+Symbols+Outlined:wght,FILL@100..700,0..1
+    &display=swap" rel="stylesheet">
+    
+*/
 
 /* ─── RESET ──────────────────────────────────────────────────── */
 *,
@@ -10,64 +21,199 @@
   box-sizing: border-box;
 }
 
-/* ─── ROOT VARIABLES (BRIGHT THEME) ─────────────────────────── */
+/* ─── ROOT VARIABLES ─────────────────────────────────────────── */
 :root {
-  /* Backgrounds */
-  --bg-main: #F5F7FF;
-  --bg-secondary: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-dark: #0F0F1A;
+  /* Mouse position — updated via JS on every mousemove          */
+  --mouse-x: 50vw;
+  --mouse-y: 50vh;
 
-  /* Accent Colors */
-  --accent-primary: #FF5C5C;
-  --accent-secondary: #FF9500;
-  --accent-blue: #3B82F6;
-  --accent-purple: #8B5CF6;
-  --accent-cyan: #06B6D4;
-  --accent-green: #10B981;
+  /* ── Backgrounds ─────────────────────────────────────────── */
+  --bg-main:      #F5F2FF;   /* soft lavender-white base         */
+  --bg-secondary: #EFECFC;   /* surface-container                */
+  --bg-card:      #FFFFFF;   /* surface-container-lowest         */
+  --bg-dark:      #0F0F1A;   /* footer / dark shell              */
 
-  /* Gradient */
-  --gradient-main: linear-gradient(135deg, #FF5C5C 0%, #FF9500 50%, #FFD700 100%);
-  --gradient-cool: linear-gradient(135deg, #3B82F6, #8B5CF6);
-  --gradient-warm: linear-gradient(135deg, #E8400A 0%, #F5A623 60%, #FBBF24 100%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* ── Accent Colors ───────────────────────────────────────── */
+  --accent-primary:   #B4252D;
+  --accent-secondary: #0058BE;
+  --accent-blue:      #2170E4;
+  --accent-purple:    #8B5CF6;
+  --accent-cyan:      #06B6D4;
+  --accent-green:     #10B981;
 
-  /* Text */
-  --text-primary: #0F0F1A;
-  --text-secondary: #6B7280;
-  --text-muted: #9CA3AF;
-  --text-white: #FFFFFF;
+  /* ── Gradients ───────────────────────────────────────────── */
+  /* sunrise  — primary CTA buttons, badges */
+  --gradient-sunrise: linear-gradient(135deg, #B4252D 0%, #FF5C5C 50%, #8C5000 100%);
+  /* sunset text — headline accent, stat numbers */
+  --gradient-sunset-text: linear-gradient(to right, #B4252D, #8C5000);
+  /* warm — general warm gradient (cards, overlays) */
+  --gradient-warm:  linear-gradient(135deg, #B4252D 0%, #D97E00 60%, #FBBF24 100%);
+  /* cool — secondary accent, badges */
+  --gradient-cool:  linear-gradient(135deg, #2170E4 0%, #8B5CF6 100%);
+  /* hero — large decorative blobs */
+  --gradient-hero:  linear-gradient(135deg, #FF5C5C 0%, #8B5CF6 100%);
+  /* image overlay — sunset fade on card images */
+  --gradient-image-overlay: linear-gradient(to top, rgba(11,11,26,0.65) 0%, transparent 60%);
+  /* kept for legacy usage */
+  --gradient-main:  linear-gradient(135deg, #FF5C5C 0%, #FF9500 50%, #FFD700 100%);
 
-  /* Glass / Blur */
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.9);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  /* ── Text ────────────────────────────────────────────────── */
+  --text-primary:   #1B1A26;
+  --text-secondary: #5A403F;
+  --text-muted:     #8E706E;
+  --text-white:     #FFFFFF;
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.10);
-  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.14);
-  --shadow-xl: 0 32px 80px rgba(0, 0, 0, 0.18);
-  --shadow-colored: 0 20px 60px rgba(255, 92, 92, 0.25);
+  /* ── Glass — Level 1 (cards / containers) ────────────────── */
+  --glass-bg:     rgba(255, 255, 255, 0.40);
+  --glass-border: rgba(255, 255, 255, 0.60);
+  --glass-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.08);
+  --glass-blur:   16px;
 
-  /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --radius-full: 9999px;
+  /* ── Glass — Level 2 (modals / panels) ──────────────────── */
+  --glass-bg-2:     rgba(255, 255, 255, 0.70);
+  --glass-border-2: rgba(255, 255, 255, 0.50);
+  --glass-shadow-2: 0 16px 48px rgba(0, 0, 0, 0.14);
+  --glass-blur-2:   24px;
 
-  /* Transitions */
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm:      0 2px 8px  rgba(0, 0, 0, 0.06);
+  --shadow-md:      0 8px 24px rgba(0, 0, 0, 0.10);
+  --shadow-lg:      0 20px 60px rgba(0, 0, 0, 0.14);
+  --shadow-xl:      0 32px 80px rgba(0, 0, 0, 0.18);
+  --shadow-colored: 0 20px 60px rgba(180, 37, 45, 0.22);
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-sm:   0.5rem;    /*  8px — inputs, checkboxes        */
+  --radius-md:   1rem;      /* 16px — nested images             */
+  --radius-lg:   1.5rem;    /* 24px — event cards               */
+  --radius-xl:   2rem;      /* 32px — large containers          */
+  --radius-2xl:  3rem;      /* 48px — hero / story panels       */
+  --radius-full: 9999px;    /* pills — buttons, tags, nav       */
+
+  /* ── Spacing (8px base unit) ─────────────────────────────── */
+  --space-1:  8px;
+  --space-2:  16px;
+  --space-3:  24px;
+  --space-4:  32px;
+  --space-5:  40px;
+  --space-6:  48px;
+  --space-8:  64px;
+  --space-10: 80px;
+  --space-section: 120px;   /* section-gap from Stitch spec     */
+
+  /* ── Transitions ─────────────────────────────────────────── */
   --transition-fast: 0.2s ease;
   --transition-base: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Material surface tokens ─────────────────────────────── */
+  --surface:                   #FCFBFF;
+  --surface-dim:               #DBD8E8;
+  --surface-container-lowest:  #FFFFFF;
+  --surface-container-low:     #F5F2FF;
+  --surface-container:         #EFECFC;
+  --surface-container-high:    #E9E6F7;
+  --surface-container-highest: #E3E0F1;
+  --on-surface:                #1B1A26;
+  --on-surface-variant:        #5A403F;
+  --outline:                   #8E706E;
+  --outline-variant:           #E2BEBC;
+  --inverse-surface:           #302F3B;
+  --inverse-on-surface:        #F2EFFF;
+
+  /* primary */
+  --primary:                   #B4252D;
+  --on-primary:                #FFFFFF;
+  --primary-container:         #FF5C5C;
+  --on-primary-container:      #62000C;
+  --primary-fixed:             #FFDAD7;
+  --primary-fixed-dim:         #FFB3AF;
+  --inverse-primary:           #FFB3AF;
+
+  /* secondary */
+  --secondary:                 #0058BE;
+  --on-secondary:              #FFFFFF;
+  --secondary-container:       #2170E4;
+  --on-secondary-container:    #FEFCFF;
+
+  /* tertiary */
+  --tertiary:                  #8C5000;
+  --on-tertiary:               #FFFFFF;
+  --tertiary-container:        #D97E00;
+  --on-tertiary-container:     #462500;
+  --tertiary-fixed:            #FFDCBF;
+  --tertiary-fixed-dim:        #FFB874;
+
+  /* error */
+  --error:                     #BA1A1A;
+  --on-error:                  #FFFFFF;
+  --error-container:           #FFDAD6;
+  --on-error-container:        #93000A;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   INTERACTIVE DOT GRID BACKGROUND
+   ─ Fixed behind all content; reacts to --mouse-x / --mouse-y
+   ─ Apply useMouseTracking() hook or the JS snippet below in
+     every page that wants the effect.
+   ═══════════════════════════════════════════════════════════════ */
+.dot-grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -20;
+  pointer-events: none;
 
+  /* Dot grid pattern */
+  background-color: #FFFFFF;
+  background-image: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y),
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.08) 140px
+  );
+  mask-image:        radial-gradient(circle, black 1px, transparent 1.5px);
+  -webkit-mask-image: radial-gradient(circle, black 1px, transparent 1.5px);
+  mask-size:         32px 32px;
+  -webkit-mask-size: 32px 32px;
+}
+
+/* Atmospheric colour blobs — sit between dot grid and content    */
+.blob-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blob-layer::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  background: var(--primary-container);
+  opacity: 0.08;
+  filter: blur(120px);
+}
+
+.blob-layer::after {
+  content: '';
+  position: absolute;
+  bottom: 10%;
+  right: -5%;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: var(--secondary-container);
+  opacity: 0.08;
+  filter: blur(100px);
+}
 
 /* ─── BODY ───────────────────────────────────────────────────── */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   background: var(--bg-main);
   color: var(--text-primary);
   overflow-x: hidden;
@@ -75,96 +221,119 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─── GLOBAL CONTAINER SYSTEM ────────────────────────────────── */
-.container {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
+/* ─── CUSTOM CURSOR ──────────────────────────────────────────── */
+/* Render a <div id="cursor" class="custom-cursor"> in your app   */
+.custom-cursor {
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition:
+    width     0.2s ease,
+    height    0.2s ease,
+    background-color 0.2s ease,
+    opacity   0.2s ease;
+  will-change: transform;
 }
 
-@media (max-width: 1280px) {
-  .container {
-    padding: 0 60px;
-  }
+.custom-cursor.cursor-hover {
+  width: 28px;
+  height: 28px;
+  background-color: rgba(180, 37, 45, 0.20);
 }
 
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    padding: 0 24px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 16px;
-  }
-}
-
-/* ─── GLASS COMPONENT ────────────────────────────────────────── */
-.glass {
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-}
-
-/* ─── BUTTON BASE ────────────────────────────────────────────── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 28px;
-  border-radius: var(--radius-full);
-  border: none;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: 0.01em;
-  transition: var(--transition-base);
-  text-decoration: none;
-}
-
-.btn-primary {
-  background: var(--gradient-warm);
-  color: white;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px) scale(1.02);
-}
-
-.btn-secondary {
-  background: white;
+/* ─── TYPOGRAPHY ─────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text-primary);
-  border: 2px solid rgba(15, 15, 26, 0.1);
+  line-height: 1.1;
 }
 
-.btn-secondary:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-primary);  
+html,
+body {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+.text-display-xl {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(60px, 10vw, 120px);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
 }
 
-/* ─── HOVER LIFT ─────────────────────────────────────────────── */
-.hover-lift {
-  transition: var(--transition-base);
+.text-headline-xl {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
 }
 
-.hover-lift:hover {
-  transform: translateY(-6px) scale(1.02);
+.text-headline-lg {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(26px, 3.5vw, 32px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.text-headline-md {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(20px, 2.5vw, 24px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.text-body-lg {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.text-body-md {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.text-label-md {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.text-label-caps {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 /* ─── GRADIENT TEXT ──────────────────────────────────────────── */
 .gradient-text {
-  background: var(--gradient-warm);
+  background: var(--gradient-sunrise);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sunset — right-to-tertiary, used for stat numbers & story text */
+.gradient-text-sunset {
+  background: var(--gradient-sunset-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -177,26 +346,435 @@ body {
   background-clip: text;
 }
 
+/* ─── CONTAINER SYSTEM ───────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+@media (max-width: 1024px) { .container { padding: 0 var(--space-4); } }
+@media (max-width: 768px)  { .container { padding: 0 var(--space-3); } }
+@media (max-width: 480px)  { .container { padding: 0 20px; } }
+
+/* ─── GLASS — Level 1 ────────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+          backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ─── GLASS — Level 2 (panels/modals) ───────────────────────── */
+.glass-panel {
+  background: var(--glass-bg-2);
+  -webkit-backdrop-filter: blur(var(--glass-blur-2));
+          backdrop-filter: blur(var(--glass-blur-2));
+  border: 1.5px solid var(--glass-border-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow-2);
+}
+
+/* ─── GLASS CARD (event cards) ───────────────────────────────── */
+.card-glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+          backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);   /* 32px per design spec */
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  transition: var(--transition-base);
+}
+
+.card-glass:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Nested image inside glass card gets 16px radius */
+.card-glass img {
+  border-radius: var(--radius-md);
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Solid card variant */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--outline-variant);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: var(--transition-base);
+}
+
+/* ─── BUTTONS ────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  transition: var(--transition-base);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-user-select: none;
+          user-select: none;
+}
+
+/* Primary — sunrise gradient + shimmer sweep */
+.btn-primary {
+  background: var(--gradient-sunrise);
+  color: var(--text-white);
+  box-shadow: 0 4px 20px rgba(180, 37, 45, 0.30);
+}
+
+.btn-primary::after {
+   content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    animation: btn-sweep 3s infinite;
+}
+
+@keyframes btn-shimmer {
+ 0%   { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(200%)  rotate(45deg); }
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(180, 37, 45, 0.40);
+  active:scale-95;
+}
+
+.btn-primary:active { transform: scale(0.97); }
+
+/* Secondary — glass pill with primary border */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.50);
+  color: var(--primary);
+  border: 2px solid rgba(180, 37, 45, 0.20);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.80);
+  border-color: var(--primary);
+}
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  padding: 10px 16px;
+}
+
+.btn-ghost:hover {
+  color: var(--primary);
+  background: rgba(180, 37, 45, 0.06);
+}
+
+/* Size variants */
+.btn-sm  { padding: 8px 18px;  font-size: 13px; }
+.btn-lg  { padding: 16px 36px; font-size: 17px; }
+
+/* Icon-only circular */
+.btn-icon {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* ─── CHIP / TAG ─────────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+
+.chip-primary   { background: var(--primary);           color: var(--on-primary);   }
+.chip-secondary { background: var(--secondary);         color: var(--on-secondary); }
+.chip-tertiary  { background: var(--tertiary);          color: var(--on-tertiary);  }
+.chip-fixed     { background: var(--primary-fixed);     color: var(--on-primary-container); }
+
+/* Soft chip — 10% bg */
+.chip-soft-primary   { background: rgba(180, 37, 45, 0.10);  color: var(--primary);    }
+.chip-soft-secondary { background: rgba(0, 88, 190, 0.10);   color: var(--secondary);  }
+.chip-soft-purple    { background: rgba(139, 92, 246, 0.10); color: var(--accent-purple); }
+.chip-soft-cyan      { background: rgba(6, 182, 212, 0.10);  color: var(--accent-cyan);   }
+.chip-soft-green     { background: rgba(16, 185, 129, 0.10); color: var(--accent-green);  }
+
+/* ─── INPUT FIELDS ───────────────────────────────────────────── */
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.50);
+  border: 1.5px solid var(--outline-variant);
+  border-radius: var(--radius-sm);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-primary);
+  transition: var(--transition-fast);
+  outline: none;
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+}
+
+.input::placeholder { color: var(--text-muted); }
+
+.input:focus {
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.70);
+  box-shadow: 0 0 0 3px rgba(180, 37, 45, 0.12);
+}
+
+.input-search {
+  border-radius: var(--radius-full);
+  padding: 12px 20px;
+}
+
+/* ─── FLOATING NAV DOCK ──────────────────────────────────────── */
+.nav-dock {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.40);
+  -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-full);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 1px 0 rgba(255,255,255,0.8) inset;
+}
+
+.nav-active {
+  background: var(--gradient-sunrise);
+  border-radius: var(--radius-full);
+  color: var(--text-white) !important;
+  padding: 4px 12px;
+}
+
+/* ─── SCROLL REVEAL — big text sections ──────────────────────── */
+/*
+  Usage: wrap each word in <span>. JS updates style.color on scroll.
+  Default state = nearly invisible outline text.
+  Revealed state = solid --on-surface.
+*/
+.scroll-reveal-text {
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+.scroll-reveal-text > span {
+  display: block;
+  color: rgba(27, 26, 38, 0.05);
+  /* outline text effect (webkit only — degrades gracefully) */
+  -webkit-text-stroke: 1.5px rgba(27, 26, 38, 0.15);
+  transition: color 0.4s ease, -webkit-text-stroke-color 0.4s ease;
+  will-change: color;
+}
+
+.scroll-reveal-text > span.revealed {
+  color: var(--on-surface);
+  -webkit-text-stroke-color: transparent;
+}
+
+/* Last span uses gradient instead of solid */
+.scroll-reveal-text > span.revealed.gradient-reveal {
+  color: transparent;
+  -webkit-text-stroke: 0;
+  background: var(--gradient-sunset-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── SECTION HELPERS ────────────────────────────────────────── */
+.section {
+  padding: var(--space-section) 0;
+}
+
+@media (max-width: 768px) {
+  .section { padding: var(--space-8) 0; }
+}
+
+/* ─── GRID HELPERS ───────────────────────────────────────────── */
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-3);
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-3);
+}
+
+@media (max-width: 480px) {
+  .grid-cards { grid-template-columns: 1fr; }
+}
+
+/* Horizontal scroll strip (Live Vibes etc.) */
+.scroll-strip {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding-bottom: var(--space-4);
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-strip::-webkit-scrollbar { display: none; }
+
+.scroll-strip > * {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+/* ─── HOVER LIFT ─────────────────────────────────────────────── */
+.hover-lift {
+  transition: var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ─── BOUNCE (floating tags) ─────────────────────────────────── */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.animate-bounce-slow { animation: bounce-slow 4s ease-in-out infinite; }
+
+/* ─── PULSE RING ─────────────────────────────────────────────── */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0   rgba(180, 37, 45, 0.5); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 10px rgba(180, 37, 45, 0);   }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0   rgba(180, 37, 45, 0);   }
+}
+
+.pulse-ring { animation: pulse-ring 2s infinite; }
+
+/* ─── FADE IN ────────────────────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.animate-fade-in-up { animation: fade-in-up 0.7s ease forwards; }
+
+/* Stagger helpers */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* ─── PROGRESS BAR (story player) ───────────────────────────── */
+@keyframes progress-fill {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0%);    }
+}
+
+.progress-bar-fill { animation: progress-fill 3s linear infinite; }
+
 /* ─── SCROLLBAR ──────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-main);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 92, 92, 0.3);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-primary);
-}
+::-webkit-scrollbar           { width: 6px; }
+::-webkit-scrollbar-track     { background: var(--bg-main); }
+::-webkit-scrollbar-thumb     { background: rgba(180, 37, 45, 0.25); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 /* ─── SELECTION ──────────────────────────────────────────────── */
 ::selection {
-  background: rgba(255, 92, 92, 0.2);
-  color: var(--accent-primary);
+  background: rgba(180, 37, 45, 0.15);
+  color: var(--primary);
 }
+
+/* ─── FOCUS VISIBLE ──────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── RESPONSIVE VISIBILITY ──────────────────────────────────── */
+@media (max-width: 768px)  { .hide-mobile  { display: none !important; } }
+@media (min-width: 769px)  { .hide-desktop { display: none !important; } }
+
+/* ─── REDUCED MOTION ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:       0.01ms !important;
+    animation-iteration-count: 1     !important;
+    transition-duration:      0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOUSE TRACKING — copy this hook into your app root
+   ───────────────────────────────────────────────────────────────
+   // useMouseTracking.ts
+   import { useEffect } from 'react'
+   
+   export function useMouseTracking() {
+     useEffect(() => {
+       const update = (e: MouseEvent) => {
+         const root = document.documentElement
+         root.style.setProperty('--mouse-x', e.clientX + 'px')
+         root.style.setProperty('--mouse-y', e.clientY + 'px')
+       }
+       window.addEventListener('mousemove', update, { passive: true })
+       return () => window.removeEventListener('mousemove', update)
+     }, [])
+   }
+   
+   // In your layout root:
+   //   useMouseTracking()
+   //   return (
+   //     <>
+   //       <div className="dot-grid-bg" />
+   //       <div className="blob-layer" />
+   //       <div id="cursor" className="custom-cursor" />
+   //       {children}
+   //     </>
+   //   )
+   ═══════════════════════════════════════════════════════════════ */

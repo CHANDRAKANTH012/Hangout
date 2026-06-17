@@ -1,0 +1,355 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Profile | Hangout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .shimmer-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: translateX(-100%);
+        }
+        .shimmer-btn:hover::after {
+            animation: shimmer 0.8s ease-in-out;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
+        }
+        .sunrise-gradient {
+            background: linear-gradient(135deg, #b4252d 0%, #ff5c5c 50%, #8c5000 100%);
+        }
+        .sunset-overlay {
+            background: linear-gradient(to top, rgba(140, 80, 0, 0.6), transparent);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-tint": "#b4252d",
+                      "tertiary-fixed": "#ffdcbf",
+                      "on-secondary-fixed": "#001a42",
+                      "inverse-surface": "#302f3b",
+                      "on-surface-variant": "#5a403f",
+                      "on-background": "#1b1a26",
+                      "on-primary-fixed": "#410005",
+                      "tertiary-container": "#d97e00",
+                      "on-primary-fixed-variant": "#920418",
+                      "surface-container": "#efecfc",
+                      "surface-container-highest": "#e3e0f1",
+                      "surface-bright": "#fcf8ff",
+                      "on-secondary": "#ffffff",
+                      "secondary": "#0058be",
+                      "outline": "#8e706e",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-high": "#e9e6f7",
+                      "on-primary-container": "#62000c",
+                      "on-secondary-fixed-variant": "#004395",
+                      "on-error-container": "#93000a",
+                      "primary": "#b4252d",
+                      "on-surface": "#1b1a26",
+                      "surface": "#fcf8ff",
+                      "secondary-container": "#2170e4",
+                      "primary-container": "#ff5c5c",
+                      "on-tertiary-container": "#462500",
+                      "tertiary": "#8c5000",
+                      "tertiary-fixed-dim": "#ffb874",
+                      "error": "#ba1a1a",
+                      "surface-variant": "#e3e0f1",
+                      "primary-fixed": "#ffdad7",
+                      "surface-container-low": "#f5f2ff",
+                      "secondary-fixed": "#d8e2ff",
+                      "background": "#fcf8ff",
+                      "surface-container-lowest": "#ffffff",
+                      "outline-variant": "#e2bebc",
+                      "inverse-on-surface": "#f2efff",
+                      "primary-fixed-dim": "#ffb3af",
+                      "on-secondary-container": "#fefcff",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed-variant": "#6a3b00",
+                      "on-tertiary-fixed": "#2d1600",
+                      "inverse-primary": "#ffb3af",
+                      "surface-dim": "#dbd8e8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-padding-desktop": "40px",
+                      "gutter": "24px",
+                      "card-gap": "24px",
+                      "container-padding-mobile": "20px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "body-md": ["Be Vietnam Pro"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "headline-xl-mobile": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "headline-xl": ["Plus Jakarta Sans"],
+                      "label-md": ["Be Vietnam Pro"],
+                      "body-lg": ["Be Vietnam Pro"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                      "headline-xl-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                      "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen relative overflow-x-hidden">
+<!-- Atmospheric Background Blobs -->
+<div class="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 blur-[120px] rounded-full z-0"></div>
+<div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-tertiary/10 blur-[100px] rounded-full z-0"></div>
+<!-- TopNavBar -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-white/40 bg-white/15 backdrop-blur-lg shadow-2xl flex justify-between items-center px-8 py-3 z-50">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-black text-primary bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">Hangout</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Discover</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Map</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Create</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Notifications</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="md:hidden material-symbols-outlined text-on-surface-variant">menu</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary/40 p-0.5 hover:scale-105 transition-all cursor-pointer">
+<img alt="User profile avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAkqoD5nhj1OFmBv0coR_Y3glJXH4O51qkhDmDj4KZN-X5ggJ_GyKkT1bSFEsgfhCLd0odAxSCOFnlHC5d7iyIVQw7sVW5H-hjrA0OT06JxFAnFKnS7rJAj2_YjS18DCmJMO2b7DJvSN42ab3cY5eAY8GW3HhjhbaGNr3Y_lJbyraEghh0LJulZ1mMTCmXty0WQeS9LQuik1PoEpC4XclHCAMk3eltmr7aKZE0R4MrFpji-Wjd_O47anZJhQc1egwSoiyT_fBPuita">
+</div>
+</div>
+</nav>
+<main class="relative z-10 pt-32 pb-20 px-container-padding-mobile md:px-container-padding-desktop">
+<div class="max-w-[800px] mx-auto space-y-gutter">
+<!-- Header Card -->
+<section class="glass-card rounded-lg p-8 md:p-12 relative overflow-hidden">
+<div class="flex flex-col md:flex-row items-center md:items-end gap-8 relative z-10">
+<div class="relative group">
+<div class="w-[120px] h-[120px] rounded-full border-4 border-white/60 shadow-xl overflow-hidden bg-surface-container">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A stylish 3D character illustration of a trendy urban young adult with a friendly expression. The character has short styled hair and is wearing a modern hoodie. The background is a soft, blurred lavender and white gradient consistent with a high-end light-mode user interface. Professional lighting highlights facial features with subtle shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDGlxDUs6skSzntlSu-bQwV-lsSxbMVJ6hO-s5nhtgBMjao3MtrAzATLPwukNyTTuXBkUnK_4aQVvzZXAu8b6Uxmz-nn7Q3pX4ljT92zyiuNl7c6dlRnSqT9rlCxCZtGTNyvV4IZZqL2eOo3_mb4AdbQM6SBV7DLuIPAJM7j9ykTvaxM2IwyDeWehmDCvEe1TwtUihjYFWbhZ5x7Qu-L4deWLthFplRKpYKuW2pDGMGymjhZwgJ2gBtG4R9oLm9Uv7xpXnYd-UCi9B">
+</div>
+<button class="absolute bottom-0 right-0 sunrise-gradient text-white p-2 rounded-full shadow-lg hover:scale-110 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-weight="fill">edit</span>
+</button>
+</div>
+<div class="flex-1 text-center md:text-left space-y-2">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Jordan Rivera</h1>
+<p class="text-on-surface-variant font-label-md text-label-md">@jordan_explores</p>
+</div>
+<button class="px-8 py-2 rounded-full border-2 border-primary text-primary font-label-md text-label-md hover:bg-primary/5 transition-all shimmer-btn relative overflow-hidden">
+                                Edit Profile
+                            </button>
+</div>
+<p class="text-on-surface-variant max-w-md font-body-md text-body-md pt-2">
+                            Urban explorer, coffee enthusiast, and weekend hiker. Always looking for the next spontaneous gallery opening or hidden park in the city. 🌆✨
+                        </p>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-3 mt-12 pt-8 border-t border-white/20 text-center">
+<div class="space-y-1">
+<span class="block font-headline-md text-headline-md text-primary">12</span>
+<span class="block text-on-surface-variant font-label-md text-label-md">Hangouts created</span>
+</div>
+<div class="space-y-1 border-x border-white/20">
+<span class="block font-headline-md text-headline-md text-tertiary">48</span>
+<span class="block text-on-surface-variant font-label-md text-label-md">Hangouts joined</span>
+</div>
+<div class="space-y-1">
+<span class="block font-headline-md text-headline-md text-secondary">156</span>
+<span class="block text-on-surface-variant font-label-md text-label-md">People met</span>
+</div>
+</div>
+</section>
+<!-- My Hangouts Section -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface">My Hangouts</h2>
+<div class="flex p-1 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
+<button class="px-6 py-2 rounded-full text-primary font-bold bg-white/60 shadow-sm transition-all text-label-md" id="tab-created" onclick="switchTab('created')">Created</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant hover:text-on-surface transition-all text-label-md" id="tab-joined" onclick="switchTab('joined')">Joined</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant hover:text-on-surface transition-all text-label-md" id="tab-past" onclick="switchTab('past')">Past</button>
+</div>
+</div>
+<!-- Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-card-gap">
+<!-- Card 1 -->
+<div class="glass-card rounded-lg p-4 group cursor-pointer hover:translate-y-[-4px] transition-all">
+<div class="relative h-32 w-full rounded-[16px] overflow-hidden mb-4">
+<img alt="Event" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A warm, vibrant rooftop garden party during sunset. The lighting is golden and orange, with string lights creating a magical glow. Diverse people are chatting happily in a sophisticated urban setting with glass surfaces and modern furniture. High-quality digital photography with a premium feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYEPuFihvFoH8W1jAgdAAVdkXkl_qVNDQh8_Lt8FgQVsGxQPYVY9BAM1TzXYG4Yvv9zxNdoJTCgZ8Z9BcN8BRcRuxF-Q6GXz_gEQsacLAEwDSJaCz7BpEr8AYG1GfdpxElTVus3lGURMaVHyh6xMqi803dnNHbyW5Fl9BsAopoRC1Md7sKJV86HyyZhMSdiCryy51_F3wjbsXv8JtsRbv4WaG5Hl2yQmk326uoMGLoBqXcbbUiZZYfFMcXu6q9EiWcfFMKnzlAjwP2">
+<div class="absolute inset-0 sunset-overlay"></div>
+<span class="absolute top-3 left-3 px-3 py-1 bg-white/80 backdrop-blur-md rounded-full text-primary font-label-md text-[12px]">Tomorrow, 6 PM</span>
+</div>
+<h3 class="font-headline-md text-[18px] text-on-surface mb-1">Rooftop Sunset Jazz</h3>
+<p class="text-on-surface-variant font-body-md text-[14px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                            Skyline Lounge, Manhattan
+                        </p>
+</div>
+<!-- Card 2 -->
+<div class="glass-card rounded-lg p-4 group cursor-pointer hover:translate-y-[-4px] transition-all">
+<div class="relative h-32 w-full rounded-[16px] overflow-hidden mb-4">
+<img alt="Event" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A cozy, high-end independent bookstore cafe at night. Soft warm lighting illuminates bookshelves and comfortable reading chairs. There is a sense of community and quiet sophistication. The image features soft shadows and a pristine, modern light-mode color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCDCvK7KLxE8d0qlXOxb9MSWEniCwZT9dm1BW2jO363mReiWLRdirlgBjhF0Q_YM7f7g6BZzZj64HZHfXZnSs8spIgVSHRBNHwKNexQcBiZc-EPXW_swOZy9RbdeRXheauEVXmyD5eie1c-fhNpFCYqen38-LkYWEA3wzQCKNi71gnms5GbTDhWOoZcTx5ggnla9RN-7eHI-StpUXpU96IhpKmZyjIqB-e7UlHD7jw7VhzWrMpodHtZBaaxG7OH8c-aVym_1e2MvBB">
+<div class="absolute inset-0 sunset-overlay"></div>
+<span class="absolute top-3 left-3 px-3 py-1 bg-white/80 backdrop-blur-md rounded-full text-primary font-label-md text-[12px]">Fri, 7:30 PM</span>
+</div>
+<h3 class="font-headline-md text-[18px] text-on-surface mb-1">Silent Reading Circle</h3>
+<p class="text-on-surface-variant font-body-md text-[14px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                            Pages &amp; Pours, Brooklyn
+                        </p>
+</div>
+</div>
+</section>
+<!-- Settings Section -->
+<section class="space-y-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Account Settings</h2>
+<div class="glass-card rounded-lg overflow-hidden divide-y divide-white/20">
+<!-- Notification Toggle -->
+<div class="p-6 flex items-center justify-between hover:bg-white/10 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-weight="fill">notifications</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Push Notifications</h4>
+<p class="text-[12px] text-on-surface-variant">Get alerts for new invites and updates</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Privacy Toggle -->
+<div class="p-6 flex items-center justify-between hover:bg-white/10 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-weight="fill">lock</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Private Profile</h4>
+<p class="text-[12px] text-on-surface-variant">Only approved friends can see your activity</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox">
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Theme Preference -->
+<div class="p-6 flex items-center justify-between hover:bg-white/10 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-weight="fill">palette</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Display Theme</h4>
+<p class="text-[12px] text-on-surface-variant">Switch between Light and Dark mode</p>
+</div>
+</div>
+<div class="flex bg-surface-container rounded-full p-1 border border-white/40">
+<button class="w-8 h-8 rounded-full flex items-center justify-center bg-white shadow-sm text-primary transition-all" onclick="setTheme('light')">
+<span class="material-symbols-outlined text-[18px]">light_mode</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" onclick="setTheme('dark')">
+<span class="material-symbols-outlined text-[18px]">dark_mode</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<a class="font-label-md text-label-md text-primary hover:underline px-2" href="#">Change Password</a>
+<a class="font-label-md text-label-md text-error hover:underline px-2" href="#">Deactivate Account</a>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 bg-[#0F0F1A] relative overflow-hidden before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] before:from-primary/10 before:to-transparent">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto relative z-10">
+<div class="col-span-1 md:col-span-1">
+<span class="font-headline-md text-headline-md font-extrabold text-white mb-4 block">Hangout</span>
+<p class="text-surface-variant/70 font-body-md text-body-md">© 2024 Hangout. Spontaneous connections for the urban soul.</p>
+</div>
+<div class="space-y-4">
+<h5 class="text-white font-bold font-label-md">Platform</h5>
+<ul class="space-y-2">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md" href="#">Privacy Policy</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-white font-bold font-label-md">Community</h5>
+<ul class="space-y-2">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md" href="#">Community Guidelines</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md" href="#">Safety Center</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-white font-bold font-label-md">Support</h5>
+<ul class="space-y-2">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md" href="#">Contact Us</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md" href="#">FAQ</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<script>
+        function switchTab(tabId) {
+            const tabs = ['created', 'joined', 'past'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('tab-' + t);
+                if (t === tabId) {
+                    btn.classList.add('text-primary', 'font-bold', 'bg-white/60', 'shadow-sm');
+                    btn.classList.remove('text-on-surface-variant');
+                } else {
+                    btn.classList.remove('text-primary', 'font-bold', 'bg-white/60', 'shadow-sm');
+                    btn.classList.add('text-on-surface-variant');
+                }
+            });
+            // Tab switching logic would go here
+        }
+
+        function setTheme(mode) {
+            const html = document.documentElement;
+            if (mode === 'dark') {
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+            }
+        }
+    </script>
+</body></html>

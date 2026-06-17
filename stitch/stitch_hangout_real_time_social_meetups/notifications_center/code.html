@@ -1,0 +1,356 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Notifications | Hangout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#b4252d",
+                    "tertiary-fixed": "#ffdcbf",
+                    "on-secondary-fixed": "#001a42",
+                    "inverse-surface": "#302f3b",
+                    "on-surface-variant": "#5a403f",
+                    "on-background": "#1b1a26",
+                    "on-primary-fixed": "#410005",
+                    "tertiary-container": "#d97e00",
+                    "on-primary-fixed-variant": "#920418",
+                    "surface-container": "#efecfc",
+                    "surface-container-highest": "#e3e0f1",
+                    "surface-bright": "#fcf8ff",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#0058be",
+                    "outline": "#8e706e",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-high": "#e9e6f7",
+                    "on-primary-container": "#62000c",
+                    "on-secondary-fixed-variant": "#004395",
+                    "on-error-container": "#93000a",
+                    "primary": "#b4252d",
+                    "on-surface": "#1b1a26",
+                    "surface": "#fcf8ff",
+                    "secondary-container": "#2170e4",
+                    "primary-container": "#ff5c5c",
+                    "on-tertiary-container": "#462500",
+                    "tertiary": "#8c5000",
+                    "tertiary-fixed-dim": "#ffb874",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e3e0f1",
+                    "primary-fixed": "#ffdad7",
+                    "surface-container-low": "#f5f2ff",
+                    "secondary-fixed": "#d8e2ff",
+                    "background": "#fcf8ff",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#e2bebc",
+                    "inverse-on-surface": "#f2efff",
+                    "primary-fixed-dim": "#ffb3af",
+                    "on-secondary-container": "#fefcff",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#6a3b00",
+                    "on-tertiary-fixed": "#2d1600",
+                    "inverse-primary": "#ffb3af",
+                    "surface-dim": "#dbd8e8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "40px",
+                    "gutter": "24px",
+                    "card-gap": "24px",
+                    "container-padding-mobile": "20px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "body-lg": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fcf8ff;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(180, 37, 45, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(140, 80, 0, 0.05) 0%, transparent 50%);
+            min-height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.08);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+        }
+        .inner-glass {
+            background: rgba(27, 26, 38, 0.05);
+            border-radius: 1rem;
+        }
+        .sunrise-gradient {
+            background: linear-gradient(135deg, #b4252d 0%, #ff5c5c 50%, #8c5000 100%);
+        }
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-white/40 bg-white/15 backdrop-blur-lg shadow-2xl flex justify-between items-center px-8 py-3 z-50">
+<div class="font-headline-md text-headline-md font-black text-primary bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">Hangout</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md hover:scale-105 transition-all duration-300" href="#">Discover</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md hover:scale-105 transition-all duration-300" href="#">Map</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md hover:scale-105 transition-all duration-300" href="#">Create</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md hover:scale-105 transition-all duration-300" href="#">Notifications</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md hidden sm:block">Login</button>
+<button class="sunrise-gradient text-white font-bold px-6 py-2 rounded-full shadow-lg shimmer hover:scale-105 active:scale-95 transition-all duration-200">Join Now</button>
+</div>
+</nav>
+<!-- Background Decoration -->
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+<div class="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] bg-primary/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[10%] right-[10%] w-[30vw] h-[30vw] bg-tertiary/10 rounded-full blur-[120px]"></div>
+</div>
+<!-- Main Content Canvas -->
+<main class="pt-32 pb-24 px-container-padding-mobile md:px-container-padding-desktop max-w-5xl mx-auto">
+<header class="mb-12">
+<h1 class="font-headline-xl text-headline-xl text-on-background mb-8">Notifications</h1>
+<!-- Tabs Interface -->
+<div class="flex gap-8 border-b border-surface-variant/30 pb-1">
+<button class="relative pb-4 font-label-md text-label-md text-primary font-bold transition-all">
+                    All
+                    <span class="absolute bottom-0 left-0 w-full h-[3px] sunrise-gradient rounded-full"></span>
+</button>
+<button class="relative pb-4 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all flex items-center gap-2">
+                    Requests
+                    <span class="bg-primary-container text-on-primary-container text-[10px] px-1.5 py-0.5 rounded-full font-bold">2</span>
+</button>
+<button class="relative pb-4 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all flex items-center gap-2">
+                    Updates
+                    <span class="bg-tertiary-container text-on-tertiary-container text-[10px] px-1.5 py-0.5 rounded-full font-bold">5</span>
+</button>
+</div>
+</header>
+<!-- Notification Grid -->
+<div class="grid gap-6">
+<!-- Notification Card: Host View (Accept/Reject) -->
+<div class="glass-card rounded-lg p-6 flex flex-col md:flex-row gap-6">
+<div class="flex-shrink-0">
+<img alt="Avatar" class="w-14 h-14 rounded-full border-2 border-white shadow-md object-cover" data-alt="A professional close-up portrait of a young urban male with a friendly expression. He is wearing stylish modern streetwear. The lighting is soft and natural, emphasizing a high-end, bright lifestyle aesthetic with warm sunset tones in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH55vQQu6TppGzkFHewlU-RrE2JgApbBVfgE0UzAtzMOcKRGyDE3ruZlu66Q5AfkmK9kbJWyog5S2T4Dz9SwD0Y44rP4T6-Vy58KQxgMWdjc9FJfR7yNTQV-CiaPdTuzF5b0jkCUnuTwExQ50TXHc-AmBUuDV2i67KyeQfslYYmmj7VIW8YsCY4iBnyZgDlf0585LOdH-ZN2mYWXfeJBks2mj8fq0_qE_1j5EKx_uXk8f7BzAwQDQnc3X-E-gtCMQNeM5K-ESV15_g">
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-bold text-on-background">Marcus Rivera</span>
+<span class="text-on-surface-variant font-medium">sent a request to join</span>
+<span class="text-primary font-bold">Sunset Rooftop Yoga</span>
+</div>
+<span class="bg-amber-100 text-amber-700 text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> Pending
+                        </span>
+</div>
+<p class="text-label-md text-surface-variant font-medium mb-4">2 hours ago</p>
+<div class="inner-glass p-4 mb-4">
+<p class="text-body-md text-on-surface-variant italic">"Hey! I've been practicing yoga for 2 years and would love to join your session. Your choice of music for the flow looks amazing!"</p>
+</div>
+<div class="flex gap-3">
+<button class="sunrise-gradient text-white text-label-md font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 active:scale-95 transition-all">
+                            Accept Request
+                        </button>
+<button class="bg-white/30 border border-white/40 text-on-surface-variant text-label-md font-bold px-6 py-2 rounded-full hover:bg-white/50 transition-all">
+                            Decline
+                        </button>
+</div>
+</div>
+</div>
+<!-- Notification Card: User View (Accepted) -->
+<div class="glass-card rounded-lg p-6 flex flex-col md:flex-row gap-6">
+<div class="flex-shrink-0">
+<img alt="Avatar" class="w-14 h-14 rounded-full border-2 border-white shadow-md object-cover" data-alt="A high-quality portrait of a smiling young woman with vibrant energy. She has an urban, trendy look with minimal makeup. The setting is a bright, airy modern cafe with soft bokeh lighting and a warm, inviting color palette of peaches and soft whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY9marxRRrgT2xOyghhMwuO3C6fVqAeQXFSIIsNt5yKD2TVGcHcqMmjAQ35BP7QG6spaCnD_ErjcK6c6AgbRtJWG8K0BKf0yVCbinJCzUuTqrCeIvi7BqIfNC-zADeYpf_ECXL1MjSd0f1H6oKpqYRHKLJ22eVxwcM2h0jPMIXzmpo5zgXeoV5KMLLxf8IUr9GTRfs3GqPlrMxGR91EDO_D-_z0jYO7LEvdoc9HkQVhDCqiL2x1AUpGoPcH5Oj1TP-QKZKoBKyCV_g">
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-bold text-on-background">Elena Chen</span>
+<span class="text-on-surface-variant font-medium">accepted your request for</span>
+<span class="text-primary font-bold">Underground Jazz Night</span>
+</div>
+<span class="bg-green-100 text-green-700 text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Accepted
+                        </span>
+</div>
+<p class="text-label-md text-surface-variant font-medium mb-4">Yesterday, 8:45 PM</p>
+<button class="sunrise-gradient text-white text-label-md font-bold px-8 py-2.5 rounded-full shadow-lg shimmer hover:scale-105 active:scale-95 transition-all">
+                        Join Hangout Group
+                    </button>
+</div>
+</div>
+<!-- Notification Card: System/Update -->
+<div class="glass-card rounded-lg p-6 flex flex-col md:flex-row gap-6 opacity-80">
+<div class="flex-shrink-0">
+<div class="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-3xl">campaign</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-bold text-on-background">Hangout System</span>
+<span class="text-on-surface-variant font-medium">Reminder for</span>
+<span class="text-primary font-bold">Midnight Gallery Walk</span>
+</div>
+</div>
+<p class="text-label-md text-surface-variant font-medium mb-2">3 days ago</p>
+<p class="text-body-md text-on-surface-variant">The event starts in 24 hours. Check the group chat for the meeting point details!</p>
+</div>
+</div>
+</div>
+<!-- Empty State (Hidden for demo purposes) -->
+<div class="hidden flex flex-col items-center justify-center py-20 text-center" id="empty-state">
+<div class="w-64 h-64 mb-8 relative">
+<div class="absolute inset-0 sunrise-gradient opacity-20 rounded-full blur-3xl animate-pulse"></div>
+<img alt="Empty state illustration" class="w-full h-full object-contain relative z-10" data-alt="A stylized, minimalist digital illustration of a friendly urban scene with soft rounded shapes. A person is sitting on a bench looking at a phone, surrounded by floating notification bubbles that are empty. The color scheme is pastel lavender, soft coral, and warm white, with a clean, high-end feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE7uJ4wN-z3sAjO07sj7x_QzDBriHXxMMeKRKYWPWQs6B16Sd_yz85NioPvformJ2IHeleQCQgreoYF2pMJg3cmfXrMVYO-n5OUIl9xu8sQdsMvTx0FIWl5Ix5Ks7WgjsfCfDaqH6taoyrtp6C7qry-4gf9BHF1_xlRLeXURKiHUp4va88YQsg-0rs08Koxq31viUA0yMi1aPNUHE1HjMaXjFbytMA0GPzKrbcAgOvqP6ALP08zQ3qlLj8Enq5m70YGBhVTJccQ9no">
+</div>
+<h3 class="font-headline-md text-headline-md text-on-background mb-2">No notifications yet</h3>
+<p class="text-body-md text-on-surface-variant max-w-sm">When you host events or join hangouts, your requests and updates will appear here.</p>
+<button class="mt-8 bg-white/30 border border-white/40 px-8 py-3 rounded-full font-bold text-primary hover:bg-white/50 transition-all">
+                Explore Events
+            </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0F0F1A] w-full py-16 relative overflow-hidden before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] before:from-primary/10 before:to-transparent">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto relative z-10">
+<div class="col-span-1 md:col-span-1">
+<div class="font-headline-md text-headline-md font-extrabold text-white mb-6">Hangout</div>
+<p class="text-surface-variant/70 font-body-md text-body-md leading-relaxed">
+                    © 2024 Hangout. Spontaneous connections for the urban soul.
+                </p>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-label-md text-label-md uppercase tracking-wider">Platform</h4>
+<ul class="space-y-4">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Discover</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Community Guidelines</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Safety Center</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-label-md text-label-md uppercase tracking-wider">Legal</h4>
+<ul class="space-y-4">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Privacy Policy</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-label-md text-label-md uppercase tracking-wider">Connect</h4>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-white">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-white">alternate_email</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Simple tab switching logic simulation
+        const tabs = document.querySelectorAll('header button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('text-primary', 'font-bold');
+                    t.classList.add('text-on-surface-variant');
+                    const underline = t.querySelector('span.absolute');
+                    if(underline) underline.remove();
+                });
+                tab.classList.add('text-primary', 'font-bold');
+                tab.classList.remove('text-on-surface-variant');
+                
+                const indicator = document.createElement('span');
+                indicator.className = 'absolute bottom-0 left-0 w-full h-[3px] sunrise-gradient rounded-full';
+                tab.appendChild(indicator);
+            });
+        });
+
+        // Hover tilt effect for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body></html>

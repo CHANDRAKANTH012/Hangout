@@ -1,0 +1,361 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Hangout | Live Map</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Leaflet CSS -->
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#b4252d",
+                    "tertiary-fixed": "#ffdcbf",
+                    "on-secondary-fixed": "#001a42",
+                    "inverse-surface": "#302f3b",
+                    "on-surface-variant": "#5a403f",
+                    "on-background": "#1b1a26",
+                    "on-primary-fixed": "#410005",
+                    "tertiary-container": "#d97e00",
+                    "on-primary-fixed-variant": "#920418",
+                    "surface-container": "#efecfc",
+                    "surface-container-highest": "#e3e0f1",
+                    "surface-bright": "#fcf8ff",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#0058be",
+                    "outline": "#8e706e",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-high": "#e9e6f7",
+                    "on-primary-container": "#62000c",
+                    "on-secondary-fixed-variant": "#004395",
+                    "on-error-container": "#93000a",
+                    "primary": "#b4252d",
+                    "on-surface": "#1b1a26",
+                    "surface": "#fcf8ff",
+                    "secondary-container": "#2170e4",
+                    "primary-container": "#ff5c5c",
+                    "on-tertiary-container": "#462500",
+                    "tertiary": "#8c5000",
+                    "tertiary-fixed-dim": "#ffb874",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e3e0f1",
+                    "primary-fixed": "#ffdad7",
+                    "surface-container-low": "#f5f2ff",
+                    "secondary-fixed": "#d8e2ff",
+                    "background": "#fcf8ff",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#e2bebc",
+                    "inverse-on-surface": "#f2efff",
+                    "primary-fixed-dim": "#ffb3af",
+                    "on-secondary-container": "#fefcff",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#6a3b00",
+                    "on-tertiary-fixed": "#2d1600",
+                    "inverse-primary": "#ffb3af",
+                    "surface-dim": "#dbd8e8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "40px",
+                    "gutter": "24px",
+                    "card-gap": "24px",
+                    "container-padding-mobile": "20px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "body-lg": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { @apply bg-background text-on-background font-body-md overflow-hidden; }
+        .glass-panel {
+            @apply bg-white/40 backdrop-blur-xl border border-white/60 shadow-2xl;
+        }
+        .marker-glow {
+            filter: drop-shadow(0 0 8px rgba(180, 37, 45, 0.4));
+        }
+        .custom-popup .leaflet-popup-content-wrapper {
+            @apply bg-transparent shadow-none border-none p-0;
+        }
+        .custom-popup .leaflet-popup-tip {
+            @apply bg-white/60 backdrop-blur-md;
+        }
+        .sunrise-gradient {
+            background: linear-gradient(135deg, #b4252d 0%, #d97e00 100%);
+        }
+        .shimmer-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .leaflet-container { font-family: inherit; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { @apply bg-on-surface-variant/20 rounded-full; }
+    </style>
+</head>
+<body class="h-screen w-screen relative">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-white/40 bg-white/15 backdrop-blur-lg backdrop-blur-md shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] shadow-2xl flex justify-between items-center px-8 py-3 z-50">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-black text-primary bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">Hangout</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Discover</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Map</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Create</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Notifications</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md">Login</button>
+<button class="px-6 py-2 rounded-full bg-primary text-white font-bold hover:scale-105 transition-all duration-300 shadow-lg active:scale-95">Join Now</button>
+</div>
+</nav>
+<!-- Side Panel -->
+<aside class="fixed left-6 top-24 bottom-6 w-[360px] glass-panel rounded-lg z-40 transition-transform duration-500 ease-in-out flex flex-col" id="side-panel">
+<div class="p-6 border-b border-white/20">
+<h2 class="font-headline-md text-headline-md text-on-surface">Nearby Hangouts</h2>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Found 12 connections near you</p>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-4" id="nearby-list">
+<!-- Mini Card 1 -->
+<div class="p-4 rounded-lg bg-white/30 border border-white/40 hover:bg-white/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">Active Now</span>
+<span class="text-label-md text-on-surface-variant">0.4 km</span>
+</div>
+<h3 class="font-bold text-on-surface group-hover:text-primary transition-colors">Afternoon Coffee &amp; Code</h3>
+<div class="flex items-center gap-2 mt-3">
+<img alt="User" class="w-6 h-6 rounded-full border border-white" data-alt="Close-up portrait of a young professional woman with a friendly smile, wearing stylish glasses, in a brightly lit modern office environment with soft blurred background, warm natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGWeUN3G9yWYKxFWcLP_fSEhqFIuLtc4AVVAPWHzfrfU3CtG1p41mnytpHn3O8_wehO0Xy0SqZLD-5zqT6jkJCkoZXNplksS-gkJ4VZWH06U2VRjZP-e3pwtK6zcHiBbU3DvggUdcozLkrJetwpHME1CNj2Utwl3U9mEQ5O0T95A4ZOyIVUSDP-u88YWb8PlruEfX_I6a7k-POcJQOl_MbPkjbhCQNIHUGpeETIhakHH2drPWgMvi-Hb2og_5sVatkUp8QTb0d5gKN">
+<span class="text-label-md text-on-surface-variant">Sarah + 3 others</span>
+</div>
+</div>
+<!-- Mini Card 2 -->
+<div class="p-4 rounded-lg bg-white/30 border border-white/40 hover:bg-white/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-1 rounded-full bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider">Starts in 2h</span>
+<span class="text-label-md text-on-surface-variant">1.2 km</span>
+</div>
+<h3 class="font-bold text-on-surface group-hover:text-primary transition-colors">Golden Hour Photography</h3>
+<div class="flex items-center gap-2 mt-3">
+<img alt="User" class="w-6 h-6 rounded-full border border-white" data-alt="A candid photo of a stylish man in his late 20s with a creative aesthetic, standing in an urban sunset setting. The lighting is golden and soft, emphasizing a warm and approachable persona. High-quality editorial photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVRihpGLCYueSrE29u1czgDOPSWfNf4m-WYfUIWCU-v1lwlXLKPxvgeD5Ob4cHI2efiMAUwA2qys04M-zAZAf1F8iFDgTwDH2YgeLBrU3clfnb2e_qXVDsUBKxeCi1CmBnXcUtS6RP07otyFp8gErB6q96BPBQ_evZHQUJC2D5rfZMxVh3c2FQiuHBPaCGXvGss7hZu0_eJ6EJyi4ttBTAJFImSfl9CT7ulGn0clC-2eiV1Nc2OyccGp1Z7UmIpVeb_vpmwIk_2rNy">
+<span class="text-label-md text-on-surface-variant">Marcus + 8 others</span>
+</div>
+</div>
+<!-- Mini Card 3 -->
+<div class="p-4 rounded-lg bg-white/30 border border-white/40 hover:bg-white/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-1 rounded-full bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-wider">Social</span>
+<span class="text-label-md text-on-surface-variant">2.5 km</span>
+</div>
+<h3 class="font-bold text-on-surface group-hover:text-primary transition-colors">Urban Garden Volunteering</h3>
+<div class="flex items-center gap-2 mt-3">
+<img alt="User" class="w-6 h-6 rounded-full border border-white" data-alt="Portrait of an energetic young adult woman with curly hair, wearing a green apron, outdoors in a vibrant community garden. The scene is filled with lush plants and soft daylight, creating a peaceful and community-focused atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALivwTnnQvOFWIB11rMMxvNTCkOwZgISyGzN3AfKI7nFE3TsMI0i56CYooJMkKrhEStDdn6sPyZ8Pp1_iIUX66MLS0X0_YIdANRCqXQ8jVsfKXKNRnnqe3OrJjNEtOofUlWy0U7R5L75VOYG7nh-k2bRBtjOfW65SL6W_r2WX-wFN_IKwSmGmHK-6xxCIJjd1eFc_7ZZoJR6X0kxET_gVcMM_h5qUoREySv8x4g8Qv85uqUTADi05MHCzJXk9QkPcnPjE23CVGgsA9">
+<span class="text-label-md text-on-surface-variant">Elena + 12 others</span>
+</div>
+</div>
+</div>
+<button class="absolute -right-10 top-1/2 -translate-y-1/2 w-10 h-20 glass-panel rounded-r-lg flex items-center justify-center cursor-pointer hover:bg-white/60 transition-all" id="toggle-panel">
+<span class="material-symbols-outlined text-on-surface-variant">chevron_left</span>
+</button>
+</aside>
+<!-- Map Container -->
+<div class="h-screen w-screen z-0" id="map"></div>
+<!-- Floating Map Controls -->
+<!-- Top Left Search -->
+<div class="fixed left-[400px] top-24 z-30 w-80 max-w-[calc(100vw-450px)] transition-all duration-500" id="search-container">
+<div class="glass-panel rounded-full px-6 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-on-surface-variant/60 font-body-md" placeholder="Search a location..." type="text">
+</div>
+</div>
+<!-- Top Right Layer Filters -->
+<div class="fixed right-6 top-24 z-30 flex flex-col items-end gap-3">
+<div class="glass-panel p-2 rounded-xl flex flex-col gap-2">
+<button class="p-3 rounded-lg bg-primary text-white shadow-md flex items-center justify-center">
+<span class="material-symbols-outlined" data-weight="fill">category</span>
+</button>
+<div class="w-px h-6 bg-white/40 self-center"></div>
+<button class="p-3 rounded-lg hover:bg-white/40 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">restaurant</span>
+</button>
+<button class="p-3 rounded-lg hover:bg-white/40 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">fitness_center</span>
+</button>
+<button class="p-3 rounded-lg hover:bg-white/40 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">palette</span>
+</button>
+</div>
+</div>
+<!-- Bottom Right Controls -->
+<div class="fixed right-6 bottom-10 z-30 flex flex-col gap-4">
+<button class="w-12 h-12 glass-panel rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all text-on-surface">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<div class="flex flex-col glass-panel rounded-full overflow-hidden">
+<button class="w-12 h-12 flex items-center justify-center hover:bg-white/40 transition-all text-on-surface border-b border-white/20">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center hover:bg-white/40 transition-all text-on-surface">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+<!-- Scripts -->
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+        // Map Initialization
+        const map = L.map('map', {
+            zoomControl: false,
+            attributionControl: false
+        }).setView([40.7128, -74.0060], 13);
+
+        // Light Theme Tiles
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        // Custom Marker Logic
+        const createCustomMarker = (emoji, lat, lng, title) => {
+            const icon = L.divIcon({
+                className: 'custom-div-icon',
+                html: `
+                    <div class="w-10 h-10 rounded-full sunrise-gradient flex items-center justify-center text-white text-xl shadow-xl marker-glow border-2 border-white hover:scale-125 transition-transform duration-300">
+                        ${emoji}
+                    </div>
+                `,
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
+            });
+
+            const marker = L.marker([lat, lng], { icon }).addTo(map);
+            
+            const popupContent = `
+                <div class="glass-panel w-[280px] p-5 rounded-lg overflow-hidden border-2 border-white/60">
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="image-user-small.jpg" class="w-10 h-10 rounded-full border-2 border-primary/20" data-alt="Detailed close-up portrait of a smiling young person with vibrant energy, natural light, urban background with soft bokeh, high-end photography style consistent with a modern community app.">
+                        <div>
+                            <p class="font-bold text-on-surface">${title}</p>
+                            <p class="text-[12px] text-on-surface-variant">0.4 km away • Chill Vibe</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between text-[11px] font-bold mb-1">
+                            <span class="text-primary">4 Joined</span>
+                            <span class="text-on-surface-variant">Capacity: 10</span>
+                        </div>
+                        <div class="w-full bg-white/30 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-primary h-full w-[40%]"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button class="flex-1 py-2 rounded-full border border-primary text-primary font-bold text-[12px] hover:bg-primary/5 transition-all">Details</button>
+                        <button class="flex-1 py-2 rounded-full bg-primary text-white font-bold text-[12px] shadow-md shimmer-btn">Join Now</button>
+                    </div>
+                </div>
+            `;
+
+            marker.bindPopup(popupContent, {
+                className: 'custom-popup',
+                offset: [0, -30]
+            });
+
+            marker.on('click', function() {
+                map.flyTo([lat, lng], 15, {
+                    duration: 1.5
+                });
+            });
+
+            return marker;
+        };
+
+        // Add dummy markers
+        createCustomMarker('☕', 40.7128, -74.0060, 'Coffee & Code');
+        createCustomMarker('📸', 40.7200, -74.0100, 'Sunset Shots');
+        createCustomMarker('🏀', 40.7050, -73.9980, 'Pickup Game');
+        createCustomMarker('🎨', 40.7150, -74.0150, 'Sketching Session');
+
+        // Panel Toggle Logic
+        const panel = document.getElementById('side-panel');
+        const search = document.getElementById('search-container');
+        const toggleBtn = document.getElementById('toggle-panel');
+        const toggleIcon = toggleBtn.querySelector('.material-symbols-outlined');
+        let isPanelOpen = true;
+
+        toggleBtn.addEventListener('click', () => {
+            isPanelOpen = !isPanelOpen;
+            if (isPanelOpen) {
+                panel.style.transform = 'translateX(0)';
+                search.style.left = '400px';
+                toggleIcon.innerText = 'chevron_left';
+            } else {
+                panel.style.transform = 'translateX(-370px)';
+                search.style.left = '40px';
+                toggleIcon.innerText = 'chevron_right';
+            }
+        });
+
+        // Atmospheric Micro-interactions
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hangout - Rooftop Lounge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#2d1600",
+                        "on-surface-variant": "#5a403f",
+                        "background": "#fcf8ff",
+                        "secondary": "#0058be",
+                        "primary": "#b4252d",
+                        "inverse-on-surface": "#f2efff",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1b1a26",
+                        "tertiary-container": "#d97e00",
+                        "on-secondary-fixed-variant": "#004395",
+                        "primary-container": "#ff5c5c",
+                        "primary-fixed": "#ffdad7",
+                        "surface-container-low": "#f5f2ff",
+                        "surface-container": "#efecfc",
+                        "surface-variant": "#e3e0f1",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-fixed": "#410005",
+                        "inverse-primary": "#ffb3af",
+                        "tertiary": "#8c5000",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#001a42",
+                        "on-primary-container": "#62000c",
+                        "tertiary-fixed": "#ffdcbf",
+                        "surface-container-high": "#e9e6f7",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dbd8e8",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "outline": "#8e706e",
+                        "inverse-surface": "#302f3b",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#2170e4",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#b4252d",
+                        "tertiary-fixed-dim": "#ffb874",
+                        "on-tertiary-container": "#462500",
+                        "surface-bright": "#fcf8ff",
+                        "primary-fixed-dim": "#ffb3af",
+                        "surface-container-highest": "#e3e0f1",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#e2bebc",
+                        "on-primary-fixed-variant": "#920418",
+                        "surface": "#fcf8ff",
+                        "on-tertiary-fixed-variant": "#6a3b00",
+                        "on-surface": "#1b1a26"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "container-padding-desktop": "40px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "card-gap": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl-mobile": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "body-lg": ["Be Vietnam Pro"],
+                        "label-md": ["Be Vietnam Pro"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-xl-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                        "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) skewX(-15deg); }
+            100% { transform: translateX(200%) skewX(-15deg); }
+        }
+        .shimmer-btn:hover::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 1s infinite ease-in-out;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.05);
+        }
+        .sunrise-gradient {
+            background: linear-gradient(135deg, #ff5c5c 0%, #ffb3af 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(180, 37, 45, 0.2);
+            border-radius: 10px;
+        }
+        .typing-dot {
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden h-screen selection:bg-primary-fixed">
+<!-- Fixed Glass NavBar -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-[1400px] z-50 bg-white/60 backdrop-blur-2xl rounded-full border-t-[1.5px] border-l-[1.5px] border-white/40 shadow-[0_40px_60px_-15px_rgba(0,0,0,0.03)] flex justify-between items-center px-8 py-3">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">Hangout</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Map</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Hangouts</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Notifications</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md hover:scale-105 transition-transform duration-300 active:scale-95 shimmer-btn relative overflow-hidden">
+                Create
+            </button>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<img alt="User profile avatar" class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" data-alt="A close-up professional portrait of a stylish young woman with a warm, friendly expression. The lighting is soft and golden, highlighting the premium glassmorphism aesthetic of the brand. She has a minimalist, modern appearance that fits into a high-end social networking context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqLBDe4Yb-k5ScjvITpWx8a0nd93TXby0t2R74hBE0oUNhGe_52asH8GqLHOQmYz6kKWGL2W7RApQWN-DBUR4wP3yvA2kYdOeWfjsaK5B2q5vEKDFxEtpRRQn870CVCaZzucZ4SSLozQS8nTfZGu0UTI8C76uAvmrEj42tJURpQs1lEBRGCiJGMRi-IDccf1pQdwoJdod9zUl86rXtBoHKsa79gWIPb1vzOvoGHQ10pzy-I8NyS4ya2TWMikmfAdt6-8xNTWEMMrRj"/>
+</div>
+</nav>
+<!-- Main Content Cluster -->
+<main class="h-screen pt-28 pb-8 px-8 flex gap-gutter">
+<!-- Left Sidebar: Participants -->
+<aside class="w-80 flex flex-col glass-panel rounded-xl p-6 h-full">
+<div class="mb-6">
+<h2 class="font-headline-md text-headline-md text-primary mb-1">Rooftop Lounge</h2>
+<p class="font-label-md text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    8 People Live
+                </p>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar space-y-4">
+<!-- Speaker -->
+<div class="flex items-center gap-3 p-2 rounded-lg bg-primary-container/10 border border-primary-container/20">
+<div class="relative">
+<img alt="Marcus Chen" class="w-10 h-10 rounded-full object-cover" data-alt="A portrait of a young man with glasses, looking engaged and speaking. The lighting is cinematic with warm tones and soft background blur, conveying a lively and premium social interaction in a modern city setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcOxi6n9kNT3vxGa_zE3_kZOUAvjj3W3Qe4hvKwQmpFFTNt_HQryENnkmWyzE2suRUxuk3q-gR8kepjN1SepWeS3pJShwhnzLepUTAcLfoNHGQrtB9FeuoweR0U2hJMtOJAnVMVuVobC4lEfRXjnncUN-Mx6l2ThMAz38pFBO_A85KTMOEgOfpjA49dT7vDs4ZwhPNJFKifwSIKgA9NyjjgnzsOEDabeR4Vpdsix2q_I7UkPpXz_AXiIOv4JBY8Cp3tkku9FiOwMKf"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-primary border-2 border-white rounded-full"></span>
+</div>
+<div class="flex-1">
+<p class="font-label-md font-bold text-on-surface">Marcus Chen</p>
+<p class="text-xs text-primary font-medium">Speaking...</p>
+</div>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="graphic_eq">graphic_eq</span>
+</div>
+<!-- Listening -->
+<div class="flex items-center gap-3 p-2 hover:bg-white/40 rounded-lg transition-colors cursor-pointer group">
+<img alt="Elena V." class="w-10 h-10 rounded-full object-cover" data-alt="A cheerful young woman with curly hair, smiling softly. She is part of an urban social gathering, reflected in the soft ambient lighting of a high-end lounge environment. Professional photography style with vibrant colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtxNCvK14Msi4w5c0nEiMxmjb1I_viNtB2wtIF4xE_m0TIG9xk_EE-iB2B0Mcy1ESh9qEPaosiL7OX6EDF9-J7Z-iRIUvvT_j4I3IPVPdYpG4nTL8pRdhYqi8kNFwO8dz9DfiHgBXSi-Oxtm6ixMcHqWuabyRFNUcTNHaLLgpBTApa86TFTvIEhjHRSZH7I4b1sphLoyhkOEsEVKIde3BBb1p2qAxXCBC3Awbak4vHaaV9VPAUGiAnDsoUIohkpEv3JYHzVoooxQgB"/>
+<div class="flex-1">
+<p class="font-label-md text-on-surface group-hover:text-primary transition-colors">Elena V.</p>
+<p class="text-xs text-on-surface-variant">Listening</p>
+</div>
+</div>
+<!-- Away -->
+<div class="flex items-center gap-3 p-2 hover:bg-white/40 rounded-lg transition-colors cursor-pointer opacity-70">
+<img alt="Sarah L." class="w-10 h-10 rounded-full object-cover" data-alt="A portrait of a focused young woman in a casual yet elegant outfit. She is looking slightly away, creating a sense of being 'away' from the screen. The scene is illuminated by the soft, high-key light of an upscale venue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwkuyI8jErv1x3PcFulwQ9ppO8PKagLDbnJMUdA7z_t_CmqfrCosnUdgOTAsvaviRDNNAsDWsk-RKAeKvycKdlTACCexLcPNEf0VE0mnc97a2f0x2sAqrRa3rxwsWdOf7D8hEvU_wWlUtbgu73Eu-a-F_50a-Wnucpp35PpIwcRxBORvP6bCkSI7ZNfjOB5XwOQDILJiManp1T0SFv-C_Bty3cmMMUHfUf_ovJcodPj8CfuWMD6Fp41sbCTJGxprnyGOw1L85-eP6m"/>
+<div class="flex-1">
+<p class="font-label-md text-on-surface">Sarah L.</p>
+<p class="text-xs text-on-surface-variant">Away</p>
+</div>
+</div>
+<!-- Simple List for others -->
+<div class="space-y-4 pt-2">
+<div class="flex items-center gap-3 p-2"><div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-on-surface-variant">JD</div><p class="font-label-md text-on-surface-variant">Jordan D.</p></div>
+<div class="flex items-center gap-3 p-2"><div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-on-surface-variant">MK</div><p class="font-label-md text-on-surface-variant">Mila K.</p></div>
+<div class="flex items-center gap-3 p-2"><div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-on-surface-variant">RT</div><p class="font-label-md text-on-surface-variant">Ray T.</p></div>
+<div class="flex items-center gap-3 p-2"><div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-on-surface-variant">AP</div><p class="font-label-md text-on-surface-variant">Alex P.</p></div>
+<div class="flex items-center gap-3 p-2"><div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-xs text-on-surface-variant">SL</div><p class="font-label-md text-on-surface-variant">Sia L.</p></div>
+</div>
+</div>
+<button class="mt-6 w-full py-4 border-2 border-dashed border-outline-variant hover:border-primary hover:bg-primary/5 rounded-xl transition-all flex items-center justify-center gap-2 font-label-md text-on-surface-variant hover:text-primary group">
+<span class="material-symbols-outlined text-lg" data-icon="person_add">person_add</span>
+                Invite Friends
+            </button>
+</aside>
+<!-- Center: Chat Area -->
+<section class="flex-1 flex flex-col h-full overflow-hidden">
+<div class="flex-1 overflow-y-auto custom-scrollbar space-y-6 px-4 pb-4">
+<!-- Message: Elena -->
+<div class="flex items-end gap-3 max-w-[80%]">
+<img alt="Elena" class="w-8 h-8 rounded-full" data-alt="Small avatar of a young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ5-VcIIVaXdn68tVkZrYOpkrgu0aMyLYA5KmhtKPme6iNqI-bLA2Pf6PD3ULnMVP7pe6X3tPWwPkWhJSC1OZOXwwub8_09w0JbcbpOrV3I-y0PuvjphkcuEoE_TZA3Mf9VEla17eFCciePZIfDMUmTCnD_Evvh63OLzVKa_zlCbkfrwawjVMuJwevY1gaH5g2F6QipYMidj6cHiFMfW0Uo1dA4RKIpDweNNJk4TQ4w4eI_F7qaajzjC29DrNQEYcBISjsNLu0vitO"/>
+<div class="glass-panel p-4 rounded-2xl rounded-bl-none">
+<p class="text-xs font-bold text-primary mb-1">Elena V.</p>
+<p class="font-body-md text-on-surface">Elena is here too. We've got the corner table! The drinks are surprisingly good.</p>
+</div>
+</div>
+<!-- Message: Leo -->
+<div class="flex items-end gap-3 max-w-[80%]">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-xs">L</div>
+<div class="glass-panel p-4 rounded-2xl rounded-bl-none">
+<p class="text-xs font-bold text-primary mb-1">Leo</p>
+<p class="font-body-md text-on-surface">The view from up here is incredible tonight... you guys really need to see the skyline from the north ledge.</p>
+</div>
+</div>
+<!-- Message: Me -->
+<div class="flex flex-col items-end gap-1 ml-auto max-w-[80%]">
+<div class="sunrise-gradient p-4 rounded-2xl rounded-br-none text-white shadow-lg shadow-primary/20">
+<p class="font-body-md">Just stepping out of the elevator now! Be there in 30 seconds. Save me a seat!</p>
+</div>
+<p class="text-[10px] text-on-surface-variant font-medium mr-2">Read 22:41</p>
+</div>
+<!-- Typing Indicator -->
+<div class="flex items-center gap-2 ml-11">
+<p class="text-xs font-medium text-on-surface-variant italic">Marcus is typing</p>
+<div class="flex gap-1">
+<div class="w-1 h-1 bg-primary rounded-full typing-dot"></div>
+<div class="w-1 h-1 bg-primary rounded-full typing-dot"></div>
+<div class="w-1 h-1 bg-primary rounded-full typing-dot"></div>
+</div>
+</div>
+</div>
+<!-- Bottom Input Field -->
+<div class="p-4 bg-white/40 backdrop-blur-xl rounded-2xl border border-white/60 flex items-center gap-4 mt-4 shadow-xl">
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary-fixed transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<div class="flex-1 relative">
+<input class="w-full bg-white/50 border-0 focus:ring-2 focus:ring-primary/20 rounded-full py-3 px-6 placeholder:text-on-surface-variant/50 font-body-md" placeholder="Type a message..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="mood">mood</span>
+</button>
+</div>
+<button class="sunrise-gradient w-12 h-12 rounded-full flex items-center justify-center text-white shadow-md hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</section>
+<!-- Right Sidebar: Spot Details -->
+<aside class="w-80 flex flex-col gap-6 h-full overflow-y-auto custom-scrollbar">
+<!-- About the Spot Card -->
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col">
+<div class="relative h-48">
+<img alt="Skyline Terrace" class="w-full h-full object-cover" data-alt="A stunning high-resolution view of a luxury rooftop terrace at night. The city skyline sparkles in the background with thousands of lights. The terrace is elegantly furnished with comfortable lounge seating, atmospheric amber lighting, and lush greenery. The mood is sophisticated, exclusive, and warm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvUyIN4mdJXsWyaHr-4ZxQg16W_A7IprPKxw2SPj2uUN8WPBGgiTcq_KqZsLJz35R1o2lR46lmYlasP94JaU1QtGSZG5SY97S8n5gPTXsU_K50QATIR2DU3ISTkGIm-gKrGrToUVwezq87RAvjFx1skLdjrYNIqf-Umhho8zhwSYpA2QrFMOMnRT5L8PL2HoXsyGYeZxo0bdtNhh6-uZc-n8Yh4FBNEyqE_xhkEtL6BOlh8eRlMw3uQ18P0myX2Ayrnt89Nwb3NQuF"/>
+<div class="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-yellow-400 text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-white text-xs font-bold">4.8</span>
+</div>
+</div>
+<div class="p-5">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Skyline Heights</h3>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">Luxury</span>
+<span class="px-3 py-1 bg-on-surface-variant/10 text-on-surface-variant rounded-full text-[10px] font-bold">2.4km away</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-4">
+                        Premium lounge with 360-degree city views. Known for signature cocktails and curated deep house playlists.
+                    </p>
+<button class="w-full py-3 bg-inverse-surface text-on-primary rounded-full font-label-md hover:bg-black transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="near_me">near_me</span>
+                        Get Directions
+                    </button>
+</div>
+</div>
+<!-- Shared Activity Card -->
+<div class="glass-panel rounded-xl p-5">
+<h4 class="font-label-md text-on-surface-variant uppercase tracking-widest text-[10px] mb-4">Shared Activity</h4>
+<div class="space-y-4">
+<!-- Music -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="music_note">music_note</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Midnight City</p>
+<p class="text-[10px] text-on-surface-variant">M83 • Now Playing</p>
+</div>
+</div>
+<!-- Photos -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="photo_library">photo_library</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">12 New Photos</p>
+<p class="text-[10px] text-on-surface-variant">Added by Marcus &amp; Elena</p>
+</div>
+</div>
+<!-- Photo Grid Peek -->
+<div class="grid grid-cols-3 gap-2 mt-4">
+<div class="aspect-square rounded-lg bg-surface-container-high overflow-hidden">
+<img alt="Activity 1" class="w-full h-full object-cover" data-alt="Rooftop drink close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU2xOAhwzEEdo9OJasPM4p2LzxHjJZY0KmK9viiZCfZvwjEd7PvRix4vWg34oEbEwnUfasMDl53MuL7FdSxK5ERXGtv1knw7A2bMAdVv7jBy5psQ9LyLhup3NULpPHXQN-BJT3X-RHUJ-VMmQfHM0aVIRUEzzJVpZwnFGXqXuKrNBGuvFtEeJ-dGmQ-jqRG7HYYPjS-OesNIgq7uNS1gQA4-AtgztkQItO1SQqQlXRJb9WI5Ay0ZhJmo30Bx3SLHL-nT1iYr1KvpmO"/>
+</div>
+<div class="aspect-square rounded-lg bg-surface-container-high overflow-hidden">
+<img alt="Activity 2" class="w-full h-full object-cover" data-alt="Rooftop crowd party" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjBdUidpeJ1ndKfYiYOj96AknnkfrG1Iqen6SxB-ixHMfFHvz7tI6Xb1Gb25KevlbemO4bJNQkjVRKdFkP2jv0fFuNyp7k-pVotp33a2tqzWRUUbOvZnab0fuaJc9_BAf28R0RPxn7EYDnDrbnM3_LRDRbk8cY7d8KQhME1vFkGUex1CBlIcBJYvL8rTfL6vYtHrHUCUr7DYYXSbOCQ6eNTQB-eXECdgLUXniKtLSBZ58dejwySAlsZWQrrqOQKjipMz1YvIObFgfe"/>
+</div>
+<div class="aspect-square rounded-lg bg-surface-container-high overflow-hidden relative">
+<img alt="Activity 3" class="w-full h-full object-cover brightness-50" data-alt="City lights night view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvd27UYBVTXn6Q3o-FtubgiPN3PX9vbpaXjKXNpQiIq7N22luUerTSbwsIcf5GAWZ7OpL3cuICNEaV4OUbas3c54l9S2Au46cC6kgoxsjZxTJxg--w06DBWEqnvKKwokYTu6mv7w2xbZgVEFRUgCEmQ1OP9OtntrTqvjtn7EYmNXUbmW-MogwzQ4dEuGW43UpEHfdJFdoPMzQLot3n2IBer9ziD0-mt5uwY4SY6eeR6RU8jNohgEMLiv6-LB6IB03XP4S-82LPFASA"/>
+<span class="absolute inset-0 flex items-center justify-center text-white text-[10px] font-bold">+9</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Background Atmospheric Blob Decorations -->
+<div class="fixed top-[-10%] right-[-10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -z-10 animate-pulse"></div>
+<div class="fixed bottom-[-5%] left-[-5%] w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px] -z-10"></div>
+<script>
+        // Simple Interaction logic
+        const input = document.querySelector('input');
+        const sendBtn = document.querySelector('.sunrise-gradient.w-12');
+
+        sendBtn.addEventListener('click', () => {
+            if (input.value.trim()) {
+                console.log('Message sent:', input.value);
+                input.value = '';
+                // In a real app, logic to append message would go here
+            }
+        });
+
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+    </script>
+</body></html>

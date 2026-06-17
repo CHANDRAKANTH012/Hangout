@@ -1,0 +1,427 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Active Hangouts | Hangout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-error": "#ffffff",
+                "on-primary": "#ffffff",
+                "surface-tint": "#b4252d",
+                "tertiary-fixed": "#ffdcbf",
+                "on-secondary-fixed": "#001a42",
+                "inverse-surface": "#302f3b",
+                "on-surface-variant": "#5a403f",
+                "on-background": "#1b1a26",
+                "on-primary-fixed": "#410005",
+                "tertiary-container": "#d97e00",
+                "on-primary-fixed-variant": "#920418",
+                "surface-container": "#efecfc",
+                "surface-container-highest": "#e3e0f1",
+                "surface-bright": "#fcf8ff",
+                "on-secondary": "#ffffff",
+                "secondary": "#0058be",
+                "outline": "#8e706e",
+                "on-tertiary": "#ffffff",
+                "surface-container-high": "#e9e6f7",
+                "on-primary-container": "#62000c",
+                "on-secondary-fixed-variant": "#004395",
+                "on-error-container": "#93000a",
+                "primary": "#b4252d",
+                "on-surface": "#1b1a26",
+                "surface": "#fcf8ff",
+                "secondary-container": "#2170e4",
+                "primary-container": "#ff5c5c",
+                "on-tertiary-container": "#462500",
+                "tertiary": "#8c5000",
+                "tertiary-fixed-dim": "#ffb874",
+                "error": "#ba1a1a",
+                "surface-variant": "#e3e0f1",
+                "primary-fixed": "#ffdad7",
+                "surface-container-low": "#f5f2ff",
+                "secondary-fixed": "#d8e2ff",
+                "background": "#fcf8ff",
+                "surface-container-lowest": "#ffffff",
+                "outline-variant": "#e2bebc",
+                "inverse-on-surface": "#f2efff",
+                "primary-fixed-dim": "#ffb3af",
+                "on-secondary-container": "#fefcff",
+                "secondary-fixed-dim": "#adc6ff",
+                "error-container": "#ffdad6",
+                "on-tertiary-fixed-variant": "#6a3b00",
+                "on-tertiary-fixed": "#2d1600",
+                "inverse-primary": "#ffb3af",
+                "surface-dim": "#dbd8e8"
+            },
+            "borderRadius": {
+                "DEFAULT": "1rem",
+                "lg": "2rem",
+                "xl": "3rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "container-padding-desktop": "40px",
+                "gutter": "24px",
+                "card-gap": "24px",
+                "container-padding-mobile": "20px",
+                "unit": "8px"
+            },
+            "fontFamily": {
+                "body-md": ["Be Vietnam Pro"],
+                "headline-lg": ["Plus Jakarta Sans"],
+                "headline-xl-mobile": ["Plus Jakarta Sans"],
+                "headline-md": ["Plus Jakarta Sans"],
+                "headline-xl": ["Plus Jakarta Sans"],
+                "label-md": ["Be Vietnam Pro"],
+                "body-lg": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                "headline-xl-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .sunrise-gradient {
+            background: linear-gradient(135deg, #ff5c5c 0%, #ffb874 100%);
+        }
+        .sunset-overlay {
+            background: linear-gradient(0deg, rgba(140, 80, 0, 0.4) 0%, rgba(180, 37, 45, 0.1) 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 40px 80px -20px rgba(180, 37, 45, 0.15);
+            background: rgba(255, 255, 255, 0.25);
+        }
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0) 40%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 60%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shimmerEffect 3s infinite;
+        }
+        @keyframes shimmerEffect {
+            0% { transform: translateX(-150%) rotate(45deg); }
+            100% { transform: translateX(150%) rotate(45deg); }
+        }
+        .bg-mesh {
+            background: 
+                radial-gradient(circle at 0% 0%, rgba(180, 37, 45, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(140, 80, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(245, 242, 255, 1) 100%);
+        }
+    </style>
+</head>
+<body class="bg-mesh font-body-md text-on-background min-h-screen overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-white/40 bg-white/15 backdrop-blur-lg shadow-2xl z-50 flex justify-between items-center px-8 py-3">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-black text-primary bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">Hangout</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Discover</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Map</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Create</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Notifications</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md">Login</button>
+<button class="sunrise-gradient text-white font-bold py-2 px-6 rounded-full shadow-lg hover:scale-105 transition-all duration-300 shimmer font-label-md text-label-md">Join Now</button>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto">
+<!-- Hero Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<h1 class="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-background mb-2">Active Hangouts</h1>
+<p class="text-on-surface-variant font-body-lg text-body-lg max-w-xl">Find your tribe in the urban jungle. Join spontaneous meetups happening right now around you.</p>
+</div>
+<button class="sunrise-gradient text-white font-extrabold py-4 px-8 rounded-full shadow-xl hover:scale-105 hover:-translate-y-1 transition-all duration-300 shimmer flex items-center gap-2 w-fit">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Create Hangout</span>
+</button>
+</div>
+<!-- Filters Bar -->
+<div class="flex overflow-x-auto pb-4 gap-3 mb-10 no-scrollbar">
+<button class="sunrise-gradient text-white px-6 py-2 rounded-full font-label-md text-label-md shadow-md whitespace-nowrap">All Categories</button>
+<button class="bg-white/40 border border-white/60 hover:bg-white/60 text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md transition-all whitespace-nowrap">Indoor</button>
+<button class="bg-white/40 border border-white/60 hover:bg-white/60 text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md transition-all whitespace-nowrap">Outdoor</button>
+<button class="bg-white/40 border border-white/60 hover:bg-white/60 text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md transition-all whitespace-nowrap">Nightlife</button>
+<div class="h-8 w-px bg-on-surface-variant/20 mx-2"></div>
+<button class="bg-white/40 border border-white/60 hover:bg-white/60 text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md transition-all whitespace-nowrap flex items-center gap-1">
+                Vibe <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="bg-white/40 border border-white/60 hover:bg-white/60 text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md transition-all whitespace-nowrap flex items-center gap-1">
+                Distance <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="bg-white/40 border border-white/60 hover:bg-white/60 text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md transition-all whitespace-nowrap flex items-center gap-1">
+                Sort <span class="material-symbols-outlined text-[18px]">swap_vert</span>
+</button>
+</div>
+<!-- Hangout Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-card-gap">
+<!-- Card 1 -->
+<div class="glass-card rounded-lg p-6 flex flex-col h-full">
+<div class="relative mb-6 rounded-lg overflow-hidden h-48 group">
+<img alt="Rooftop Jazz Night" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A cinematic low-angle shot of a vibrant rooftop party at sunset with warm orange and purple hues. Young people are socializing under string lights against a blurred urban skyline. The atmosphere is energetic yet sophisticated with a polished glassmorphism feel, reflecting the sunrise-to-sunset brand palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDePtDDSeQ8yz96b-j7DXVEw229lqpSmx6J2n2f7nVeINVmLqFUoWcXl9zIv9O07BMIHakE6JFD2mOQWJJ9-QxPmU4aNmA1eKiUHg249OXV_UN0y-_wVPOTKWDqpDXGG9Bn9nQwcZpnpeW9ZlV6zp07uSEVU1cZeWE-duJ3tAIe5FlQhUR_T4_ToxJ1jrUuacSgz71Js-7md7KqYK3rzI_ma4aeSTcC975HtO00o0RPTERrQo04ZhZyDgebJRr1RHzBiQaNPlZsxHqf">
+<div class="absolute inset-0 sunset-overlay"></div>
+<div class="absolute top-4 left-4 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> ACTIVE
+                    </div>
+<div class="absolute bottom-4 left-4 sunrise-gradient text-white text-[12px] font-bold px-3 py-1 rounded-full shadow-lg">
+                        🎸 Chill Vibe
+                    </div>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-background mb-2">Rooftop Jazz &amp; Wine</h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-2 mb-4">Unwind with live jazz and sunset views. Perfect for those looking to meet new people in a relaxed setting.</p>
+<div class="space-y-2 mb-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+<span>Skyline Lounge • 0.8 miles away</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+<span>Starts at 7:30 PM (In 45 mins)</span>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-white/20">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<img alt="Alex" class="w-8 h-8 rounded-full border border-white/50 object-cover" data-alt="A professional headshot of a friendly young adult with a warm smile, set against a soft blurred urban background. The lighting is natural and bright, maintaining a high-end, modern aesthetic consistent with a premium social platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3u2rkG5jyLR0Bk_t44idnvUq5dAh04UfOX8xC8UFqmGxd3WQ8q2lmp58XzQqxoIm_QoMZvF_aM8SJdeFs3DAYaKLY5xsxK-iHSpSnMOv1dVRWgjL0DDj-_m7GkYriVNo5BsLBwSY2F1wT9gRL2Tih44l3V1e3UfBu1ZZxEMn9SarTrutuoOqXA86gIE3gsHV-q1lfqONXWoTB0ochn_eY6lvueaiwTaRvNOoE4F8mgiH8IMBACA8mr0PUDtDP13YggANAPwSIHrA7">
+<span class="text-on-surface-variant font-label-md text-label-md">Hosted by Alex</span>
+</div>
+<span class="text-primary font-bold font-label-md text-label-md">12/20 joined</span>
+</div>
+<div class="w-full h-1.5 bg-white/30 rounded-full mb-6 overflow-hidden">
+<div class="h-full sunrise-gradient rounded-full" style="width: 60%"></div>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 bg-white/20 border border-white/40 hover:bg-white/40 text-on-surface-variant font-bold py-2 rounded-full transition-all">View</button>
+<button class="flex-2 sunrise-gradient text-white font-bold py-2 px-8 rounded-full shadow-lg hover:scale-105 transition-all shimmer">Join</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card rounded-lg p-6 flex flex-col h-full">
+<div class="relative mb-6 rounded-lg overflow-hidden h-48 group">
+<img alt="Urban Street Art Tour" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A vibrant wide shot of colorful street art on a brick wall in a trendy urban neighborhood. A group of diverse young people are walking by, captured in motion with soft morning sunlight. The image has a clean, airy feel with high contrast and saturated colors like coral red and golden amber." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_89t8PogM2e9teGXX5yvn3EZCcXbNByR14PyDUfEqQhUh7TXVeqTZDoWwzxN6ilmFVgTqfgB4NBsHtRGWJBee41fNIEAehPhDN-pB2izcVYdkzOSmShYEm9-wyGECibNgqVGesUvECPHB8H0WHCgyg2QeGc41HwdQ7VyUbjUhBYDcfNOOIv7Z6OSDpjRYN624ujKzjh3DN4v_3MiR9wG2R4JPvLHbcMMekcE4Zsac7pvhYIJtjDpHdFLQCKvFUeeTt-UWqZP0vpyL">
+<div class="absolute inset-0 sunset-overlay"></div>
+<div class="absolute top-4 left-4 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> ACTIVE
+                    </div>
+<div class="absolute bottom-4 left-4 sunrise-gradient text-white text-[12px] font-bold px-3 py-1 rounded-full shadow-lg">
+                        🎨 Hype Vibe
+                    </div>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-background mb-2">Street Art Safari</h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-2 mb-4">Discover the hidden murals of the East Side. We're hitting 5 secret spots and ending at a brewery.</p>
+<div class="space-y-2 mb-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+<span>Main Plaza Fountain • 1.2 miles away</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+<span>Starts at 8:00 PM (In 1h 15m)</span>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-white/20">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<img alt="Sarah" class="w-8 h-8 rounded-full border border-white/50 object-cover" data-alt="A portrait of a cheerful young woman with curly hair, wearing a stylish denim jacket. The setting is a minimalist studio with soft lavender backlighting, creating a warm and approachable feel. The aesthetic is modern and high-resolution, suitable for a premium social network user profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIY5pNDMfpLTCRDNSC9PG-bHW3a5yx3TvHDciNXxCNG8IS8b-lOcoRnKCcLtQQoHv9jFvIG5rBpqwcqW6YC4US7kknGxgnUk9oY0nwF1dhz2t0USbC4Tw7tVi1mz4-OHpCRrsLE-mlD2MW7eLQ-G8ZBKIzIYf1B6qY3eTeoOnfUJcMKn-2cuD2efb4Fia0IURzjQTI3b5aEaEM1t4iAbxDIcbvPM8bIzw-UvfcIIwzYSoMES91kHfWPfa-fbmjX2MvAdEY_5vykqQC">
+<span class="text-on-surface-variant font-label-md text-label-md">Hosted by Sarah</span>
+</div>
+<span class="text-primary font-bold font-label-md text-label-md">8/10 joined</span>
+</div>
+<div class="w-full h-1.5 bg-white/30 rounded-full mb-6 overflow-hidden">
+<div class="h-full sunrise-gradient rounded-full" style="width: 80%"></div>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 bg-white/20 border border-white/40 hover:bg-white/40 text-on-surface-variant font-bold py-2 rounded-full transition-all">View</button>
+<button class="flex-2 sunrise-gradient text-white font-bold py-2 px-8 rounded-full shadow-lg hover:scale-105 transition-all shimmer">Join</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card rounded-lg p-6 flex flex-col h-full">
+<div class="relative mb-6 rounded-lg overflow-hidden h-48 group">
+<img alt="Board Game Bonanza" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A cozy indoor scene featuring a group of friends laughing around a wooden table covered in modern board games. Soft, warm indoor lighting creates a welcoming 'hygge' atmosphere. The image uses a palette of soft whites, lavenders, and deep amber, maintaining a clean and airy modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBrdk8LtpFNHvCy0awE_AxEuhtUoUSLIWHhxttDUX6qM-dBd0eCdX6jLU6SB7HVolGdv3JDxg7NbfLOSRYYV280EO5K70fM-87LYTW1bTiZl1ksosvZ1v7nqWQUb-7Um-46g5NSSU7rzk0GuP3XKB4S_cTQz-oXzVjg9yfNquWbnpBkJJrIbyM--YGceT64iFrUrZLI2J9yP3zkOoCgMsC-JPNo2FfS8nRVmcCrwArjO4sCwUbG7f6x2HTmIcPwgXPSEHKgNJ3S3Hq">
+<div class="absolute inset-0 sunset-overlay"></div>
+<div class="absolute top-4 left-4 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> ACTIVE
+                    </div>
+<div class="absolute bottom-4 left-4 sunrise-gradient text-white text-[12px] font-bold px-3 py-1 rounded-full shadow-lg">
+                        🎲 Chill Vibe
+                    </div>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-background mb-2">Board Game Bonanza</h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-2 mb-4">Classic games, new friends, and craft beer. Bring your favorite game or just your competitive spirit!</p>
+<div class="space-y-2 mb-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+<span>The Malt House • 2.5 miles away</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+<span>Starts at 6:00 PM (Started)</span>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-white/20">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<img alt="Marcus" class="w-8 h-8 rounded-full border border-white/50 object-cover" data-alt="A sharp, modern portrait of a young man with a friendly expression. He is wearing a clean white t-shirt. The background is a soft, out-of-focus urban cafe with warm lighting. The image quality is premium and clear, perfectly aligned with a high-end social networking application design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZHHBjrXwEfHFW9AsaQ24FMYI6oS9sa1Mbxt3Zy4EsynU7_uDa3PBK5KozYAncz13pCS-Txex9LuKeIx0Nvjfqc7pVjPzn7fglAT4ov-vKhhvZjhDxXTA1wfs6CBohz6HEbIfoMfn2Lj_iZKeSGyq88nU9i5RIg_D8cXdfs_P8XWjNiA301382kNrEPjUX5_488j8GzoF-sMlfqoZGdMSe4_SrSEAs1hVuFFRl1B9ACJa0nIJikEPKzc9MUv0RzZREoVPuBfOK2bMb">
+<span class="text-on-surface-variant font-label-md text-label-md">Hosted by Marcus</span>
+</div>
+<span class="text-primary font-bold font-label-md text-label-md">4/6 joined</span>
+</div>
+<div class="w-full h-1.5 bg-white/30 rounded-full mb-6 overflow-hidden">
+<div class="h-full sunrise-gradient rounded-full" style="width: 66%"></div>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 bg-white/20 border border-white/40 hover:bg-white/40 text-on-surface-variant font-bold py-2 rounded-full transition-all">View</button>
+<button class="flex-2 sunrise-gradient text-white font-bold py-2 px-8 rounded-full shadow-lg hover:scale-105 transition-all shimmer">Join</button>
+</div>
+</div>
+</div>
+<!-- Card 4 (New) -->
+<div class="glass-card rounded-lg p-6 flex flex-col h-full">
+<div class="relative mb-6 rounded-lg overflow-hidden h-48 group">
+<img alt="Coding in the Park" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A serene outdoor scene of two young professionals with laptops sitting on a colorful blanket in a sunny city park. Lush green grass and soft dappled sunlight filtering through trees. The mood is productive yet peaceful, with a sophisticated color grade emphasizing natural greens and soft lavender shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVsILkvdkwSJLwo_Lav2yfGRWuEbH4eKolmopzGV5vIeORxWxjjPVectUbpNQLHFq_BeklbmUYIQwpArV_FEeB9T0TxO--4BSgCDX9mhxopfqLrL82dKNd-gp_pAPCMHObVSqV7aDFBt2yaoQPETtaiem__5YYXaUlbtrdiL_xW7Qf2kbnaX4sYL8xayuSfbaioDnq4LG8ulLmR0boyfOVjP7km_63B-Lmd9D-J-MiaMTwKZ1wAcOIANjhyK5brbMON6VyMzhleOrv">
+<div class="absolute inset-0 sunset-overlay"></div>
+<div class="absolute top-4 left-4 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> ACTIVE
+                    </div>
+<div class="absolute bottom-4 left-4 sunrise-gradient text-white text-[12px] font-bold px-3 py-1 rounded-full shadow-lg">
+                        💻 Focus Vibe
+                    </div>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-background mb-2">Code &amp; Coffee Park Session</h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-2 mb-4">Co-working in the fresh air. Bring your laptop and projects. We'll grab coffee first at the kiosk.</p>
+<div class="space-y-2 mb-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+<span>Central Park North • 0.3 miles away</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+<span>Starts at 2:00 PM (In 3h)</span>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-white/20">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<img alt="Elena" class="w-8 h-8 rounded-full border border-white/50 object-cover" data-alt="A high-quality portrait of a stylish young professional woman with a confident smile. She has a minimalist, modern appearance with a neutral backdrop that has subtle hints of warm light. The image reflects a high-end, contemporary social media aesthetic with balanced saturation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbu5fCuiwuQ1QoUZY3pmRcXIVXTL04VVbOSB8witVk4U0vw7pepoplhAqdNREdG9CO501LfZgI3M-ivIJLa0iPcYYJn6XJ8kvbkRK59dl3liv4YSuRlSOmjJmqBoedhOKq8_59OkkUrEEVoqH0FliyEBDKBUJxrVojK20ojNmYJ7wShTAcSbaUGRNY02g9ZRldE6_9rDKKNgVNSWAPOedP0YLc9r_J_9kTUHNAIpKVJoVWK0zQWG0qOeN2XQGgwombZdR2xO30zX1-">
+<span class="text-on-surface-variant font-label-md text-label-md">Hosted by Elena</span>
+</div>
+<span class="text-primary font-bold font-label-md text-label-md">2/4 joined</span>
+</div>
+<div class="w-full h-1.5 bg-white/30 rounded-full mb-6 overflow-hidden">
+<div class="h-full sunrise-gradient rounded-full" style="width: 50%"></div>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 bg-white/20 border border-white/40 hover:bg-white/40 text-on-surface-variant font-bold py-2 rounded-full transition-all">View</button>
+<button class="flex-2 sunrise-gradient text-white font-bold py-2 px-8 rounded-full shadow-lg hover:scale-105 transition-all shimmer">Join</button>
+</div>
+</div>
+</div>
+<!-- More cards would go here -->
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 bg-[#0F0F1A] relative overflow-hidden before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] before:from-primary/10 before:to-transparent">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto relative z-10">
+<div class="col-span-1 md:col-span-1">
+<span class="font-headline-md text-headline-md font-extrabold text-white mb-4 block">Hangout</span>
+<p class="text-surface-variant/70 font-body-md text-body-md">© 2024 Hangout. Spontaneous connections for the urban soul.</p>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-label-md text-label-md uppercase tracking-widest">Platform</h4>
+<ul class="space-y-4">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Privacy Policy</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-label-md text-label-md uppercase tracking-widest">Community</h4>
+<ul class="space-y-4">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Community Guidelines</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Safety Center</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-label-md text-label-md uppercase tracking-widest">Support</h4>
+<ul class="space-y-4">
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Contact Us</a></li>
+<li><a class="text-surface-variant/70 hover:text-white transition-colors font-label-md text-label-md" href="#">Help Center</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and hover effects
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle scale effect managed by CSS but can be enhanced here
+            });
+        });
+
+        // Filter chip selection toggle
+        const filterChips = document.querySelectorAll('.flex.overflow-x-auto button');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                if (!chip.classList.contains('sunrise-gradient')) {
+                    filterChips.forEach(c => {
+                        c.classList.remove('sunrise-gradient', 'text-white');
+                        c.classList.add('bg-white/40', 'text-on-surface-variant');
+                    });
+                    chip.classList.remove('bg-white/40', 'text-on-surface-variant');
+                    chip.classList.add('sunrise-gradient', 'text-white');
+                }
+            });
+        });
+    </script>
+</body></html>

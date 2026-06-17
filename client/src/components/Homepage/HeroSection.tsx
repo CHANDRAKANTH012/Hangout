@@ -1,35 +1,41 @@
 import "./HeroSection.css";
 import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
-
-
 import { Link } from "react-router-dom";
 
+import {
+  Compass,
+  Users,
+  MessageCircle,
+  Sparkles,
+  ArrowRight,
+  Heart,
+  UsersRound,
+  Eye,
+  Share2,
+} from "lucide-react";
 
 import hero1 from "../../assets/home/hero1.webp";
 import hero2 from "../../assets/home/hero2.webp";
 import hero3 from "../../assets/home/hero3.webp";
 import hero4 from "../../assets/home/hero4.webp";
 import hero5 from "../../assets/home/hero5.webp";
-import arrow from "../../assets/home/arrow.svg";
 
-/* ─── SLIDE DATA ────────────────────────────────────────────────
-   Replace image paths with your actual hero1.jfif – hero5.jfif
-   ──────────────────────────────────────────────────────────────── */
+/* ─── SLIDE DATA ─────────────────────────────────────────────── */
 const SLIDES = [
   {
     id: 1,
     image: hero1,
     tagline: "Drop a pin. Find your people.",
     username: "alex_explores",
-    avatarBg: "linear-gradient(135deg, #FF5C5C, #FF9500)",
+    avatarBg: "linear-gradient(135deg, #B4252D, #FF5C5C)",
   },
   {
     id: 2,
     image: hero2,
     tagline: "Spontaneous moments, real connections.",
     username: "mia.travels",
-    avatarBg: "linear-gradient(135deg, #3B82F6, #06B6D4)",
+    avatarBg: "linear-gradient(135deg, #2170E4, #06B6D4)",
   },
   {
     id: 3,
@@ -50,45 +56,59 @@ const SLIDES = [
     image: hero5,
     tagline: "Life happens outside. Hangout.",
     username: "jay.out",
-    avatarBg: "linear-gradient(135deg, #F59E0B, #EF4444)",
+    avatarBg: "linear-gradient(135deg, #D97E00, #B4252D)",
   },
 ];
 
-/* ─── SLIDE TIMING ───────────────────────────────────────────── */
-const DISPLAY_DURATION = 3200; // ms visible
-const TRANSITION_DURATION = 750; // ms (must match CSS)
+const DISPLAY_DURATION = 3200;
+const TRANSITION_DURATION = 750;
 
 type SlideState = "entering" | "active" | "leaving" | "hidden";
+
 /* ═══════════════════════════════════════════════════════════════
    COMPONENT
    ═══════════════════════════════════════════════════════════════ */
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* ─── Refs to avoid recreating advanceSlide on every render ── */
   const currentIdxRef = useRef(currentIdx);
   const isTransitioningRef = useRef(isTransitioning);
   currentIdxRef.current = currentIdx;
   isTransitioningRef.current = isTransitioning;
 
-  /* ─── ADVANCE SLIDE (stable — no deps that change) ─────────── */
+  /* ─── DOT GRID + CURSOR MOUSE TRACKING ──────────────────────── */
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+
+    const onMove = (e: MouseEvent) => {
+      // dot-grid spotlight
+      grid.style.setProperty("--mouse-x", e.clientX + "px");
+      grid.style.setProperty("--mouse-y", e.clientY + "px");
+    };
+
+    document.addEventListener("mousemove", onMove, { passive: true });
+
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+    };
+  }, []);
+
+  /* ─── ADVANCE SLIDE ─────────────────────────────────────────── */
   const advanceSlide = useCallback(() => {
     if (isTransitioningRef.current) return;
-
     setIsTransitioning(true);
     isTransitioningRef.current = true;
     const nextIdx = (currentIdxRef.current + 1) % SLIDES.length;
-
     setPrevIdx(currentIdxRef.current);
     setCurrentIdx(nextIdx);
     currentIdxRef.current = nextIdx;
-
-    // After transition finishes, clean up
     setTimeout(() => {
       setPrevIdx(null);
       setIsTransitioning(false);
@@ -96,7 +116,7 @@ const HeroSection = () => {
     }, TRANSITION_DURATION + 50);
   }, []);
 
-  /* ─── AUTO-CYCLE TIMER (stable — advanceSlide never changes) ── */
+  /* ─── AUTO-CYCLE ────────────────────────────────────────────── */
   useEffect(() => {
     timerRef.current = setTimeout(advanceSlide, DISPLAY_DURATION);
     return () => {
@@ -104,7 +124,7 @@ const HeroSection = () => {
     };
   }, [advanceSlide, currentIdx]);
 
-  /* ─── RESOLVE SLIDE STATE ───────────────────────────────────── */
+  /* ─── SLIDE STATE ───────────────────────────────────────────── */
   const getSlideState = (idx: number): SlideState => {
     if (idx === currentIdx) return "active";
     if (idx === prevIdx) return "leaving";
@@ -113,20 +133,26 @@ const HeroSection = () => {
 
   /* ─── GSAP ENTRY ANIMATIONS ─────────────────────────────────── */
   useEffect(() => {
-    
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      tl.from(".hero-badge", { opacity: 0, y: 20, duration: 0.5 })
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .from(".hero-badge", { opacity: 0, y: 20, duration: 0.5 })
         .from(".hero-headline", { opacity: 0, y: 30, duration: 0.6 }, "-=0.2")
         .from(".hero-subtext", { opacity: 0, y: 20, duration: 0.5 }, "-=0.3")
         .from(".hero-platforms", { opacity: 0, y: 16, duration: 0.4 }, "-=0.3")
         .from(".hero-buttons", { opacity: 0, y: 20, duration: 0.5 }, "-=0.3")
-        .from(".hero-stat", { opacity: 0, y: 16, stagger: 0.1, duration: 0.4 }, "-=0.3")
-        .from(".hero-social-proof", { opacity: 0, y: 12, duration: 0.4 }, "-=0.2")
+        .from(
+          ".hero-stat",
+          { opacity: 0, y: 16, stagger: 0.1, duration: 0.4 },
+          "-=0.3",
+        )
+        .from(
+          ".hero-social-proof",
+          { opacity: 0, y: 12, duration: 0.4 },
+          "-=0.2",
+        )
         .from(".hero-right", { opacity: 0, x: 50, duration: 0.8 }, "-=0.7");
     }, heroRef);
-
     return () => ctx.revert();
   }, []);
 
@@ -134,199 +160,252 @@ const HeroSection = () => {
   const handleDotClick = (idx: number) => {
     if (isTransitioning || idx === currentIdx) return;
     if (timerRef.current) clearTimeout(timerRef.current);
-
     setIsTransitioning(true);
     setPrevIdx(currentIdx);
     setCurrentIdx(idx);
-
     setTimeout(() => {
       setPrevIdx(null);
       setIsTransitioning(false);
     }, TRANSITION_DURATION + 50);
   };
 
+  /* ═══════════════════════════════════════════════════════════════
+     RENDER
+     ═══════════════════════════════════════════════════════════════ */
   return (
-    <section className="hero" ref={heroRef}>
-      {/* ─── BACKGROUND BLOBS ─── */}
-      <div className="hero-bg-blob hero-bg-blob-1" />
-      <div className="hero-bg-blob hero-bg-blob-2" />
-      <div className="hero-bg-blob hero-bg-blob-3" />
+    <>
+      {/* ── DOT GRID BACKGROUND (self-contained, fixed) ── */}
+      <div className="hero-dot-grid" ref={gridRef} aria-hidden="true" />
 
-      <div className="container hero-wrapper">
+      {/* ── COLOUR BLOBS (atmosphere) ── */}
+      {/* <div className="hero-blob-layer" aria-hidden="true" /> */}
 
-        {/* ══════════════════════════════════
-            LEFT SIDE
-            ══════════════════════════════════ */}
-        <div className="hero-left">
+      <section className="hero" ref={heroRef}>
+        {/* subtle section-level blobs for extra depth */}
+        <div className="hero-bg-blob hero-bg-blob-1" />
+        <div className="hero-bg-blob hero-bg-blob-2" />
+        <div className="hero-bg-blob hero-bg-blob-3" />
 
-          {/* Badge */}
-          <span className="hero-badge">
-            <span className="hero-badge-dot" />
-            See who's around
-          </span>
+        <div className="hero-wrapper">
+          {/* ════════════════════════════
+              LEFT COLUMN
+              ════════════════════════════ */}
+          <div className="hero-left">
+            {/* Badge */}
+            <span className="hero-badge">
+              <span className="hero-badge-dot" />
+              See who's around
+            </span>
 
-          {/* Headline */}
-          <h1 className="hero-headline">
-            Real-time hangouts<br />
-            <span className="gradient-text line-italic">that create</span><br />
-            real connections.
-          </h1>
+            {/* Headline */}
+            <h1 className="hero-headline">
+              Discover People Worth{" "}
+              <span className="line-italic">Hanging Out.</span>
+            </h1>
 
-          {/* Sub */}
-          <p className="hero-subtext">
-            Hangout is a real-time platform that helps you connect with your people nearby in a fun and engaging way.
-          </p>
-
-          {/* Platform icons */}
-          <div className="hero-platforms">
-            <span className="hero-platforms-label">On</span>
-            <div className="platform-icon" title="Snapchat">👻</div>
-            <div className="platform-icon" title="TikTok">🎵</div>
-            <div className="platform-icon" title="Instagram">📸</div>
-            <div className="platform-icon" title="YouTube">▶️</div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="hero-buttons">
-            <Link to="/map" className="hero-btn-primary">
-              X-plore Nearby
-            </Link>
-            <Link to="/create" className="hero-btn-secondary">
-              <span>Create Hangouts</span> <img src={arrow} alt="" className="hero-btn-secondary-icon"/>
-            </Link>
-          </div>
-
-          {/* Stats */}
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <div className="hero-stat-value"><span>100+</span></div>
-              <div className="hero-stat-label">Personal brands</div>
-            </div>
-            <div className="hero-stat">
-              <div className="hero-stat-value"><span>5/5</span></div>
-              <div className="hero-stat-label">Rated excellent</div>
-            </div>
-            <div className="hero-stat">
-              <div className="hero-stat-value"><span>40k+</span></div>
-              <div className="hero-stat-label">Avg. views</div>
-            </div>
-          </div>
-
-          {/* Social Proof */}
-          <div className="hero-social-proof">
-            <div className="hero-avatars">
-              {["🧑", "👩", "🧔", "👱"].map((emoji, i) => (
-                <div key={i} className="hero-avatar" style={{ zIndex: 4 - i }}>
-                  {emoji}
-                </div>
-              ))}
-            </div>
-            <p className="hero-social-text">
-              <strong>2,000+ users</strong> already growing with us
+            {/* Subtext */}
+            <p className="hero-subtext">
+              Break the digital barrier and meet people in your city instantly.
+              Whether it's a quick coffee, a sunset stroll, or a spontaneous jam
+              session - find your tribe in real-time.
             </p>
-          </div>
 
-        </div>
-
-        {/* ══════════════════════════════════
-            RIGHT SIDE — SCROLLING CARD
-            ══════════════════════════════════ */}
-        <div className="hero-right">
-
-          {/* Decorative echo card behind */}
-          <div className="hero-card-echo" />
-
-          {/* Glow */}
-          <div className="hero-card-glow" />
-
-          {/* Main card */}
-          <div className="hero-card">
-
-            {/* Progress dots */}
-            <div className="hero-card-dots">
-              {SLIDES.map((_, i) => (
-                <div
-                  key={i}
-                  className={`hero-card-dot${i === currentIdx ? " dot-active" : ""}`}
-                  onClick={() => handleDotClick(i)}
-                  style={{ cursor: "pointer" }}
-                />
-              ))}
+            {/* Platform icons */}
+            <div className="hero-platforms">
+              <div className="platform-icon" title="Snapchat">
+                <Compass />
+              </div>
+              <div className="platform-icon" title="Instagram">
+                <Users />
+              </div>
+              <div className="platform-icon" title="TikTok">
+                <MessageCircle />
+              </div>
+              <div className="platform-icon" title="YouTube">
+                <Sparkles />
+              </div>
             </div>
 
-            {/* Image track */}
-            <div className="hero-card-track">
-              {SLIDES.map((slide, i) => {
-                const state = getSlideState(i);
-                if (state === "hidden") return null;
+            {/* CTA Buttons */}
+            <div className="hero-buttons">
+              <Link to="/map" className="hero-btn-primary">
+                X-plore Nearby
+                {/* <span className="hero-btn-icon material-symbols-outlined">explore</span> */}
+              </Link>
+              <Link to="/create" className="hero-btn-secondary">
+                Create Hangouts
+                <ArrowRight />
+              </Link>
+            </div>
 
-                return (
+            {/* Stats */}
+            <div className="hero-stats">
+              <div className="hero-stat">
+                <div className="hero-stat-value">
+                  <span>2,000+</span>
+                </div>
+                <div className="hero-stat-label">Active users</div>
+              </div>
+
+              <div className="hero-stat">
+                <div className="hero-stat-value">
+                  <span>500+</span>
+                </div>
+                <div className="hero-stat-label">Hangouts created</div>
+              </div>
+
+              <div className="hero-stat">
+                <div className="hero-stat-value">
+                  <span>24/7</span>
+                </div>
+                <div className="hero-stat-label">Live connections</div>
+              </div>
+            </div>
+
+            {/* Social proof */}
+            <div className="hero-social-proof">
+              <div className="hero-avatars">
+                {["🧑", "👩", "🧔", "👱"].map((emoji, i) => (
                   <div
-                    key={slide.id}
-                    className={`hero-card-slide slide-${state}`}
+                    key={i}
+                    className="hero-avatar"
+                    style={{ zIndex: 4 - i }}
                   >
-                    <img
-                      src={slide.image}
-                      alt={`Hangout moment ${i + 1}`}
-                      loading={i === 0 ? "eager" : "lazy"}
-                      decoding="async"
-                    />
+                    {emoji}
                   </div>
-                );
-              })}
+                ))}
+                <div
+                  className="hero-avatar hero-avatar-count"
+                  style={{ zIndex: 0 }}
+                >
+                  +1k
+                </div>
+              </div>
+              <p className="hero-social-text">
+                <strong>1,000+ users</strong> are already connecting
+              </p>
             </div>
+          </div>
+          {/* /hero-left */}
 
-            {/* Overlay gradient */}
-            <div className="hero-card-overlay" />
+          {/* ════════════════════════════
+              RIGHT COLUMN
+              ════════════════════════════ */}
+          <div className="hero-right">
+            {/* Echo card behind */}
+            <div className="hero-card-echo" />
 
-            {/* Bottom info */}
-            <div className="hero-card-bottom">
-              {/* Tagline — transitions with slide */}
-              <div className="hero-card-tagline">
-                {SLIDES.map((slide, i) => (
-                  <span
-                    key={slide.id}
-                    className={`tagline-text${i === currentIdx ? " tagline-active" : ""}`}
-                  >
-                    {slide.tagline}
-                  </span>
+            {/* Glow */}
+            <div className="hero-card-glow" />
+
+            {/* Main card */}
+            <div className="hero-card">
+              {/* Progress dots */}
+              <div className="hero-card-dots">
+                {SLIDES.map((_, i) => (
+                  <div
+                    key={i}
+                    className={`hero-card-dot${i === currentIdx ? " dot-active" : ""}`}
+                    onClick={() => handleDotClick(i)}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Slide ${i + 1}`}
+                    onKeyDown={(e) => e.key === "Enter" && handleDotClick(i)}
+                  />
                 ))}
               </div>
 
-              {/* User row */}
-              <div className="hero-card-user">
-                <div
-                  className="hero-card-avatar"
-                  style={{ background: SLIDES[currentIdx].avatarBg }}
-                />
-                <span className="hero-card-username">
-                  @{SLIDES[currentIdx].username}
-                  <span className="hero-card-verified">✓</span>
-                </span>
+              {/* Image reel */}
+              <div className="hero-card-track">
+                {SLIDES.map((slide, i) => {
+                  const state = getSlideState(i);
+                  if (state === "hidden") return null;
+                  return (
+                    <div
+                      key={slide.id}
+                      className={`hero-card-slide slide-${state}`}
+                    >
+                      <img
+                        src={slide.image}
+                        alt={`Hangout moment ${i + 1}`}
+                        loading={i === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Overlay */}
+              <div className="hero-card-overlay" />
+
+              {/* Bottom bar */}
+              <div className="hero-card-bottom">
+                <div className="hero-card-tagline">
+                  {SLIDES.map((slide, i) => (
+                    <span
+                      key={slide.id}
+                      className={`tagline-text${i === currentIdx ? " tagline-active" : ""}`}
+                    >
+                      {slide.tagline}
+                    </span>
+                  ))}
+                </div>
+                <div className="hero-card-user">
+                  <div
+                    className="hero-card-avatar"
+                    style={{ background: SLIDES[currentIdx].avatarBg }}
+                  />
+                  <span className="hero-card-username">
+                    @{SLIDES[currentIdx].username}
+                    <span className="hero-card-verified" aria-label="Verified">
+                      ✓
+                    </span>
+                  </span>
+                  <div className="hero-card-share">
+                    <span className="material-symbols-outlined">
+                      <Share2 />
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
+            {/* /hero-card */}
 
+            {/* Floating tags */}
+            <div
+              className="hero-floating-tag hero-floating-tag-1"
+              aria-hidden="true"
+            >
+              <span className="tag-icon">
+                <Eye />
+              </span>
+              Join Others
+            </div>
+            <div
+              className="hero-floating-tag hero-floating-tag-2"
+              aria-hidden="true"
+            >
+              <span className="tag-icon">
+                <Heart />
+              </span>
+              Create Memories
+            </div>
+            <div
+              className="hero-floating-tag hero-floating-tag-3"
+              aria-hidden="true"
+            >
+              <span className="tag-icon">
+                <UsersRound />
+              </span>
+              Make Friends
+            </div>
           </div>
-
-          {/* ─── FLOATING TAGS ─── */}
-          <div className="hero-floating-tag hero-floating-tag-1">
-            <span className="tag-icon">👁️</span>
-            Join Others
-          </div>
-
-          <div className="hero-floating-tag hero-floating-tag-2">
-            <span className="tag-icon">❤️</span>
-            Create Memories
-          </div>
-
-          <div className="hero-floating-tag hero-floating-tag-3">
-            <span className="tag-icon">👥</span>
-            Make Friends
-          </div>
-
+          {/* /hero-right */}
         </div>
-      </div>
-    </section>
+        {/* /hero-wrapper */}
+      </section>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -27,6 +27,8 @@ const CreateHangoutPage = () => {
   const [locationSearch, setLocationSearch] = useState('')
   const [minAge, setMinAge] = useState('')
   const [message, setMessage] = useState('')
+
+ 
 
   /* ── refs for date/time inputs ────────────────────────────── */
   const dateInputRef = useRef<HTMLInputElement>(null)
