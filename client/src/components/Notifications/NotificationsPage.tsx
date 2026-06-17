@@ -123,7 +123,7 @@ const NotificationsPage = () => {
   const handleRespond = async (notifId: string, action: "accepted" | "rejected") => {
     try {
       setActionLoading((prev) => ({ ...prev, [notifId]: true }));
-      const res: any = await notificationsApi.respond(notifId, action);
+      await notificationsApi.respond(notifId, action);
 
       // Update the notification in local state
       setNotifications((prev) =>

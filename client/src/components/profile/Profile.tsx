@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { usersApi, hangoutsApi, type Hangout } from "../../api/ApiClient";
+import { usersApi, type Hangout } from "../../api/ApiClient";
 import "./Profile.css";
 
 /* ─── HELPERS ────────────────────────────────────────────────── */
 const getInitials = (name: string) =>
   name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
 
-const formatDate = (str: string) =>
-  new Intl.DateTimeFormat("en-US", { weekday: "short", hour: "numeric", minute: "2-digit", hour12: true }).format(new Date(str));
+
 
 const formatShortDate = (str: string) => {
   const d = new Date(str);
