@@ -63,6 +63,7 @@ export interface Hangout {
     username: string;
     avatar: { url: string; publicId: string };
   }[];
+  isPrivate: boolean;
   approvalRequired: boolean;
   tags: string[];
   ageLimit: number;

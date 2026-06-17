@@ -50,9 +50,7 @@ const HangoutCard = ({ data, isAuthenticated }: Props) => {
   const handleJoin = async () => {
     if (!isAuthenticated) { navigate("/login"); return; }
     try {
-      data.approvalRequired
-        ? await hangoutsApi.requestJoin(data._id)
-        : await hangoutsApi.join(data._id);
+      await hangoutsApi.join(data._id);
     } catch (e) {
       console.error(e);
     }
