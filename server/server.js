@@ -28,9 +28,20 @@ await connectDB();
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
 // CORS — allow frontend dev server
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://hangout-3xwp.onrender.com",
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked: ${origin}`));
+      }
+    },
     credentials: true,
   }),
 );
